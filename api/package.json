@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "base64url": "latest",
+    "body-parser": "latest",
+    "cookie-parser": "~1.4.4",
+    "cors": "latest",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-session": "latest",
+    "google-auth-library": "^5.9.2",
+    "googleapis": "^47.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.5",
+    "morgan": "~1.9.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0"
+  }
+}
