@@ -28,4 +28,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Build
-      run: docker-compose up --build api
+      run: docker-compose up -d
