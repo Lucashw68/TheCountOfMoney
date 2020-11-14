@@ -1,7 +1,7 @@
 # Test
 
 FROM node:latest as build-stage
-ENV APP_ROOT /src
+ENV APP_ROOT /build
 
 RUN mkdir ${APP_ROOT}
 WORKDIR ${APP_ROOT}
