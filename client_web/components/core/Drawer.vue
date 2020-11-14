@@ -15,7 +15,7 @@
         </v-avatar>
       </v-row>
       <v-row justify="center">
-        <span class="headline font-weight-light">Template nuxt.js</span>
+        <span class="headline font-weight-light">TheCountOfMoney</span>
       </v-row>
     </v-container>
 
