@@ -2,7 +2,7 @@
   <v-container id="home" fluid fill-height>
     <v-row justify="center" align="center">
       <span class="display-2 text-center font-weight-light">
-        Welcome to a nuxt template
+        Welcome to TheCountOfMoney
       </span>
     </v-row>
   </v-container>

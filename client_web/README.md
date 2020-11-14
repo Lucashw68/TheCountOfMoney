@@ -1,5 +1,5 @@
 # Client TheCountOfMoney
-![Nuxt CI](https://github.com/Lucashw68/TheCountOfMoney/workflows/nuxt/badge.svg)
+![Nuxt CI](https://github.com/Lucashw68/TheCountOfMoney/workflows/Nuxt%20CI/badge.svg)
 ## Build Setup
 
 ```bash
