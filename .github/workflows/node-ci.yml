@@ -6,8 +6,6 @@ on:
       - main
     paths:
     - 'api/**'
-    paths-ignore:
-      - 'README.md'
   pull_request:
     branches:
       - main
