@@ -14,38 +14,22 @@ jobs:
     name: Deploy on VPS
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Test
-      run: ls
+    - name: Copy file via ssh
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOSTNAME }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: 22
+        source: "."
+        target: "TheCountOfMoney"
 
-    # - name: Copy file via ssh
-    #   uses: appleboy/scp-action@master
-    #   with:
-    #     host: ${{ secrets.HOSTNAME }}
-    #     username: ${{ secrets.USERNAME }}
-    #     password: ${{ secrets.PASSWORD }}
-    #     port: 22
-    #     source: "."
-    #     target: "TheCountOfMoney"
-    #
-    # - name: Executing remote ssh commands
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     host: ${{ secrets.HOSTNAME }}
-    #     username: ${{ secrets.USERNAME }}
-    #     password: ${{ secrets.PASSWORD }}
-    #     command_timeout: 30m
-    #     script: |
-    #       ./thecountofmoney.sh
-
-  # skip:
-  #   if: ${{ github.event.workflow_run.conclusion != 'success' }}
-  #
-  #   name: Skip deployment
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #   - name: Log
-  #     run: |
-  #       echo "Precedent workflow(s) failed, cancel deployment"
-  #       echo ${{ github.event.workflow_run }}
+    - name: Executing remote ssh commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOSTNAME }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        command_timeout: 15m
+        script: |
+          ./thecountofmoney.sh
