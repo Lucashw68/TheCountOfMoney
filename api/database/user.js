@@ -4,7 +4,7 @@ let GoogleSchema = require('./services/google').GoogleSchema;
 let UserSchema = new mongoose.Schema({
     email: String,
     password: String,
-    insurance: String,
+    username: String,
     google: GoogleSchema,
     role: {
         type: String,

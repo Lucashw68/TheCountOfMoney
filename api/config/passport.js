@@ -1,5 +1,5 @@
-let jwt = require('jsonwebtoken');
-let config = require('../config/jwt_token.js');
+const jwt = require('jsonwebtoken');
+const config = require('../config/jwt_token.js');
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const GoogleClient = require('../config/google');

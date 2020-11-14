@@ -8,7 +8,11 @@ services:
       - "3000:3000"
     networks:
       - default
+    environment:
+      - API_URL=http://localhost:8081/api
     restart: always
+    depends_on:
+      - api
     command:
       "npm run start"
 
@@ -22,6 +26,7 @@ services:
       - default
     environment:
       - PORT=8081
+      - DB_URL=mongodb://mongodb-com
     depends_on:
       - mongodb-api
     restart: on-failure
