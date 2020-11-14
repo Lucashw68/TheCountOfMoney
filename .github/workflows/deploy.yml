@@ -9,12 +9,12 @@ on:
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     name: Deploy on VPS
     runs-on: ubuntu-latest
 
     steps:
-
     - name: Test
       run: ls
 
@@ -37,3 +37,15 @@ jobs:
     #     command_timeout: 30m
     #     script: |
     #       ./thecountofmoney.sh
+
+  skip:
+    if: ${{ github.event.workflow_run.conclusion != 'success' }}
+
+    name: Skip deployment
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Log
+      run: |
+        echo "Precedent workflow(s) failed, cancel deployment"
+        echo ${{ github.event.workflow_run }}
