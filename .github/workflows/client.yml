@@ -1,16 +1,16 @@
-name: Nuxt CI
+name: Client
 
 on:
   push:
     branches:
       - main
-      - master
+      - develop
     paths:
       - 'client_web/**'
   pull_request:
     branches:
       - main
-      - master
+      - develop
 
 jobs:
   ci:
