@@ -8,3 +8,7 @@
 ```
 docker-compose up --build
 ```
+
+# Running
+
+- Client web: http://51.75.122.116:3000/
