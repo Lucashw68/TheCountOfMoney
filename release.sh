@@ -49,7 +49,7 @@ function createRelease() {
   git commit -a -m "Version number update to ${newVersion}"
   git checkout master
   git merge --no-ff release-${newVersion}
-  git tag -a ${newVersion}
+  git tag -a ${newVersion} -m "release ${added}"
   updateDevelop
   deleteRelease
 }
