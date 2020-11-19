@@ -47,7 +47,7 @@ function createRelease() {
   git checkout -b release-${newVersion} develop
   updateVersion
   git commit -a -m "Version number update to ${newVersion}"
-  git checkout master
+  git checkout main
   git merge --no-ff release-${newVersion}
   git tag -a ${newVersion} -m "release ${added}"
   updateDevelop
