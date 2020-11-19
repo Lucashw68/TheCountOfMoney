@@ -44,12 +44,12 @@ function getVersion() {
 
 function createRelease() {
   confirm
-  # git checkout -b release-${newVersion} develop
+  git checkout -b release-${newVersion} develop
   updateVersion
-  # git commit -a -m "Version number update to ${newVersion}"
-  # git checkout master
-  # git merge --no-ff release-${newVersion}
-  # git tag -a ${newVersion}
+  git commit -a -m "Version number update to ${newVersion}"
+  git checkout master
+  git merge --no-ff release-${newVersion}
+  git tag -a ${newVersion}
   updateDevelop
   deleteRelease
 }
@@ -73,20 +73,20 @@ function updateVersion() {
   do
     location=$(echo $file | cut -d '/' -f2)
     cd $location
-    # npm version ${newVersion}
+    npm version ${newVersion}
     cd ..
   done
 }
 
 function updateDevelop() {
   echo "Updating develop"
-  # git checkout develop
-  # git merge --no-ff release-${newVersion}
+  git checkout develop
+  git merge --no-ff release-${newVersion}
 }
 
 function deleteRelease() {
   echo "Deleting release branch"
-  # git branch -d release-${newVersion}
+  git branch -d release-${newVersion}
 }
 
 function major() {
