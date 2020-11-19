@@ -2,17 +2,12 @@
 
 FROM node:latest as build-stage
 ENV APP_ROOT /build
-
 RUN mkdir ${APP_ROOT}
 WORKDIR ${APP_ROOT}
 COPY package*.json ${APP_ROOT}/
-
 RUN npm install
-
 COPY . .
-
 RUN npm run build
-
 ENV HOST 0.0.0.0
 
 # Production
