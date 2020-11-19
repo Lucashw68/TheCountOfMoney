@@ -1,0 +1,53 @@
+name: Client
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'client_web/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  ci:
+    runs-on: ${{ matrix.os }}
+    env:
+      working-directory: ./client_web
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache node_modules 📦
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies 👨🏻‍💻
+        run: npm ci
+        working-directory: ${{ env.working-directory }}
+
+      - name: Run linter 👀
+        run: npm run lint
+        working-directory: ${{ env.working-directory }}
+
+      - name: Run tests 🧪
+        run: npm run test
+        working-directory: ${{ env.working-directory }}
