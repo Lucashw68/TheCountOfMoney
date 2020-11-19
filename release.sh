@@ -50,6 +50,7 @@ function createRelease() {
   git checkout main
   git merge --no-ff release-${newVersion}
   git tag -a ${newVersion} -m "release ${added}"
+  git push
   updateDevelop
   deleteRelease
 }
