@@ -1,8 +1,8 @@
 <template>
-  <v-container id="home" fluid fill-height>
+  <v-container id="profile" fluid fill-height>
     <v-row justify="center" align="center">
       <span class="display-2 text-center font-weight-light">
-        Welcome to settings
+        Your profile
       </span>
     </v-row>
   </v-container>
@@ -10,13 +10,14 @@
 
 <script>
 export default {
-  name: 'Settings',
-  transition: 'intro',
-  layout: 'default',
+  name: 'Profile',
   auth: false,
 
   data: () => ({}),
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+#profile {
+}
+</style>
