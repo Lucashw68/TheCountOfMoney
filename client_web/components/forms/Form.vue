@@ -1,11 +1,11 @@
 <template>
   <v-container fluid>
     <v-row v-if="config.image && config.image.length !== 0" justify="center">
-      <v-avatar size="200">
+      <v-avatar size="100">
         <v-img :src="config.image" />
       </v-avatar>
     </v-row>
-    <v-row align="center" align-content="center" justify="center">
+    <v-row align="center" align-content="center" justify="center" class="mt-2">
       <v-col :cols="responsive ? 12 : config.width || 4">
         <v-card id="form-title" :color="color">
           <v-card-title id="title"

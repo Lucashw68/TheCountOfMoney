@@ -14,7 +14,7 @@
 import DynamicForm from '@/components/forms/Form.vue'
 export default {
   name: 'Register',
-  auth: false,
+  auth: 'guest',
 
   components: {
     DynamicForm,
@@ -30,7 +30,6 @@ export default {
         duration: 5000,
       },
       width: 4,
-      image: 'https://cdn0.iconfinder.com/data/icons/user-44/512/Bot-512.png',
       icon: 'mdi-account-plus',
       components: [
         {

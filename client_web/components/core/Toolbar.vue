@@ -6,7 +6,15 @@
     style="box-shadow: 0px 0px 35px 6px #121212"
   >
     <v-app-bar-nav-icon @click.stop="toggleDrawer" />
-    <v-btn fab small depressed color="#424242" @click.stop="toggleMini">
+    <v-btn
+      v-if="drawer"
+      class="mx-4"
+      fab
+      small
+      depressed
+      color="#424242"
+      @click.stop="toggleMini"
+    >
       <v-icon>{{ mini ? 'mdi-arrow-right' : 'mdi-arrow-left' }}</v-icon>
     </v-btn>
     <v-toolbar-title class="font-weight-light headline" v-text="title" />
@@ -28,12 +36,14 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'CoreToolbar',
 
-  data: () => ({
-    title: '',
-  }),
+  data: () => ({}),
 
   computed: {
-    ...mapState('app', ['mini']),
+    ...mapState('app', ['mini', 'drawer']),
+
+    title() {
+      return this.$nuxt.$route.name
+    },
 
     isAuthenticated() {
       return this.$store.state.auth.loggedIn
@@ -41,17 +51,6 @@ export default {
 
     loggedInUser() {
       return this.$store.state.auth.user
-    },
-  },
-
-  watch: {
-    $route(val) {
-      this.title = val.name
-      if (val.name === 'index') {
-        this.title = 'Home'
-      } else if (val.name === null) {
-        this.title = 'Error'
-      }
     },
   },
 
