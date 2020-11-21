@@ -42,7 +42,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.API_URL,
+    baseURL: process.env.API_URL || 'http://localhost:8081/api',
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -69,13 +69,14 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/login', method: 'post', propertyName: 'token' },
-          user: { url: '/account/email', method: 'get', propertyName: 'email' },
+          login: { url: '/users/login', method: 'post', propertyName: 'token' },
+          user: { url: '/users/profile', method: 'get', propertyName: 'user' },
           logout: false,
         },
       },
       google: {
-        client_id: '[CLIENT_ID_OF_YOUR_APP]',
+        client_id:
+          '924336356846-arr31781d8d6bejs66spmkelgb6jnol2.apps.googleusercontent.com',
       },
     },
   },

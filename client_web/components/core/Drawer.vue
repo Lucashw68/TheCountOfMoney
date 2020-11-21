@@ -2,16 +2,13 @@
   <v-navigation-drawer
     v-model="drawerStatus"
     :mini-variant="mini"
-    src="https://thumbs.gfycat.com/LoathsomeCaringIchidna-small.gif"
     style="box-shadow: 0px 0px 10px 1px #121212"
     app
   >
     <v-container v-if="!mini" fluid>
       <v-row justify="center">
         <v-avatar>
-          <v-img
-            src="https://cdn0.iconfinder.com/data/icons/user-44/512/Bot-512.png"
-          />
+          <v-img :src="require('~/static/logo.png')" />
         </v-avatar>
       </v-row>
       <v-row justify="center">
@@ -19,8 +16,15 @@
       </v-row>
     </v-container>
 
+    <v-container v-else fluid>
+      <v-row justify="center">
+        <v-avatar>
+          <v-img :src="require('~/static/logo.png')" />
+        </v-avatar>
+      </v-row>
+    </v-container>
+
     <v-divider
-      :style="mini ? 'margin-top: 142px;' : ''"
       style="
         margin-top: 30px;
         width: 70%;

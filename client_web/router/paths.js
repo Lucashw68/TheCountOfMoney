@@ -30,13 +30,13 @@ export default [
   },
 
   // =========================================================================
-  // THEME
+  // DASHBOARD
   // =========================================================================
 
   {
-    path: '/theme',
-    name: 'Theme',
-    icon: 'mdi-shape',
+    path: '/dashboard',
+    name: 'Dashboard',
+    icon: 'mdi-monitor-dashboard',
     group: 'top',
     public: true,
     show: true,
@@ -45,28 +45,13 @@ export default [
   },
 
   // =========================================================================
-  // CHARTS
+  // PROFILE
   // =========================================================================
 
   {
-    path: '/charts',
-    name: 'Charts',
-    icon: 'mdi-poll-box',
-    group: 'top',
-    public: true,
-    show: true,
-    parameters: [],
-    role: ['default'],
-  },
-
-  // =========================================================================
-  // FORMS
-  // =========================================================================
-
-  {
-    path: '/forms',
-    name: 'Forms',
-    icon: 'mdi-form-select',
+    path: '/profile',
+    name: 'Profile',
+    icon: 'mdi-account',
     group: 'top',
     public: true,
     show: true,

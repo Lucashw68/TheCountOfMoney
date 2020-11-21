@@ -1,11 +1,11 @@
 <template>
   <v-container fluid>
     <v-row v-if="config.image && config.image.length !== 0" justify="center">
-      <v-avatar size="200">
+      <v-avatar size="100">
         <v-img :src="config.image" />
       </v-avatar>
     </v-row>
-    <v-row align="center" align-content="center" justify="center">
+    <v-row align="center" align-content="center" justify="center" class="mt-2">
       <v-col :cols="responsive ? 12 : config.width || 4">
         <v-card id="form-title" :color="color">
           <v-card-title id="title"
@@ -36,7 +36,9 @@
                   v-for="(component, id) in config.components"
                   :key="id"
                   class="mx-2"
-                  :model-props="component.model"
+                  :model-props="
+                    /^actions/.test(component.name) ? component.model : null
+                  "
                   :[component.directive]="component.options"
                   @model="updateModel(component, $event)"
                 >
@@ -133,7 +135,7 @@ export default {
 
     updateModel(component, model) {
       const id = this.$props.config.components.findIndex(
-        (item) => component.id === item.id
+        (item) => component.modelName === item.modelName
       )
       this.$props.config.components[id].model = model
       this.$emit('update:config', this.$props.config)

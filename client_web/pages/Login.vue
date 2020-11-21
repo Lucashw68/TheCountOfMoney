@@ -30,11 +30,9 @@ export default {
         duration: 5000,
       },
       width: 4,
-      image: 'https://cdn0.iconfinder.com/data/icons/user-44/512/Bot-512.png',
       icon: 'mdi-account-circle',
       components: [
         {
-          id: 0,
           model: null,
           modelName: 'email',
           name: 'inputs-text-field',
@@ -61,7 +59,6 @@ export default {
           },
         },
         {
-          id: 1,
           model: null,
           modelName: 'password',
           name: 'inputs-text-field',
@@ -82,14 +79,33 @@ export default {
             rules: [
               (v) => !!v || 'Password required',
               (v) =>
-                (v && v.length > 7) ||
-                'Password must be superior than 7 characters',
+                (v && v.length > 2) ||
+                'Password must be superior than 2 characters',
             ],
+          },
+        },
+        {
+          model: false,
+          modelName: 'googleLoginButton',
+          name: 'actions-button',
+          directive: 'config',
+          options: {
+            label: 'Login with Google',
+            block: true,
+            xlarge: true,
+            dark: true,
+            shaped: true,
           },
         },
       ],
     },
   }),
+
+  computed: {
+    getButtonStateGoogle() {
+      return this.config.components[2].model
+    },
+  },
 
   watch: {
     'config.message.text'(after) {
@@ -98,6 +114,15 @@ export default {
           this.config.message.text = null
         }, 5000)
       }
+    },
+    getButtonStateGoogle: {
+      handler(after, before) {
+        if (after) {
+          this.loginGoogle()
+          this.config.components[2].model = before
+        }
+      },
+      deep: true,
     },
   },
 
@@ -110,6 +135,20 @@ export default {
             password: this.getModel('password'),
           },
         })
+        console.log('Loggedin: ', this.$store.state.auth.loggedIn)
+        this.config.message.type = 'success'
+        this.config.message.text = 'Successfully connected'
+      } catch (err) {
+        this.config.message.type = 'error'
+        this.config.message.text = err
+      }
+    },
+
+    async loginGoogle() {
+      try {
+        await this.$auth.loginWith('google')
+        this.config.message.type = 'success'
+        this.config.message.text = 'Successfully connected'
       } catch (err) {
         this.config.message.type = 'error'
         this.config.message.text = err
