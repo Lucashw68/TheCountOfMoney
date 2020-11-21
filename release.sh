@@ -92,6 +92,8 @@ function deleteRelease() {
 
 function major() {
   majorVersion=$((majorVersion+1))
+  minorVersion=0
+  patchVersion=0
   newVersion=${majorVersion}.${minorVersion}.${patchVersion}
   echo "New Major release" [$newVersion]
   createRelease
@@ -99,6 +101,7 @@ function major() {
 
 function minor() {
   minorVersion=$((minorVersion+1))
+  patchVersion=0
   newVersion=${majorVersion}.${minorVersion}.${patchVersion}
   echo "New Minor release" [$newVersion]
   createRelease
