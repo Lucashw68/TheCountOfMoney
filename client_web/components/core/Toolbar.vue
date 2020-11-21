@@ -21,9 +21,21 @@
 
     <v-spacer />
 
-    <span v-if="loggedInUser" class="subtitle">
-      {{ loggedInUser }}
-    </span>
+    <v-btn v-if="isAuthenticated">
+      <v-row justify="end" align="center">
+        <v-avatar tile class="mx-4">
+          <v-img
+            :src="
+              loggedInUser.picture ||
+              `https://avatars.dicebear.com/v2/male/${loggedInUser.email}.svg`
+            "
+          />
+        </v-avatar>
+        <span class="subtitle mx-4">
+          {{ loggedInUser.name || loggedInUser.email }}
+        </span>
+      </v-row>
+    </v-btn>
 
     <v-btn v-if="isAuthenticated" text x-large @click.stop="logout()">
       Logout
