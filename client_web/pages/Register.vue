@@ -116,7 +116,7 @@ export default {
   methods: {
     async register() {
       try {
-        await this.$axios.post('register', {
+        await this.$axios.post('/users/register', {
           username: this.getModel('username'),
           email: this.getModel('email'),
           password: this.getModel('password'),

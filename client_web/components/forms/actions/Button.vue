@@ -8,7 +8,7 @@
     :light="config.light || false"
     :dense="config.dense || false"
     :shaped="config.shaped || false"
-    @click.stop="model = true"
+    @click="model = true"
   >
     <span>{{ config.label | capitalize }}</span>
   </v-btn>
@@ -49,6 +49,7 @@ export default {
         return false
       },
       set(val) {
+        console.log('model set emitted')
         this.$emit('model', val)
       },
     },

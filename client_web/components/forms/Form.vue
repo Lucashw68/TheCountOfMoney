@@ -36,7 +36,9 @@
                   v-for="(component, id) in config.components"
                   :key="id"
                   class="mx-2"
-                  :model-props="component.model"
+                  :model-props="
+                    /^actions/.test(component.name) ? component.model : null
+                  "
                   :[component.directive]="component.options"
                   @model="updateModel(component, $event)"
                 >
@@ -133,7 +135,7 @@ export default {
 
     updateModel(component, model) {
       const id = this.$props.config.components.findIndex(
-        (item) => component.id === item.id
+        (item) => component.modelName === item.modelName
       )
       this.$props.config.components[id].model = model
       this.$emit('update:config', this.$props.config)
