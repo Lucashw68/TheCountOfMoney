@@ -131,7 +131,8 @@ export default {
         this.$router.push('/')
       } catch (err) {
         this.config.message.type = 'error'
-        this.config.message.text = err
+        this.config.message.text =
+          typeof err.response !== 'undefined' ? err.response.data.message : err
       }
     },
 
