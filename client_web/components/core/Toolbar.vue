@@ -23,8 +23,9 @@
 
     <v-btn v-if="isAuthenticated">
       <v-row justify="end" align="center">
-        <v-avatar tile class="mx-4">
+        <v-avatar class="mx-4">
           <v-img
+            style="background-color: white"
             :src="
               loggedInUser.picture ||
               `https://avatars.dicebear.com/v2/male/${loggedInUser.email}.svg`
@@ -72,6 +73,7 @@ export default {
     async logout() {
       try {
         await this.$auth.logout()
+        this.$router.push({ path: '/home' })
       } catch (err) {
         console.log(err)
       }
