@@ -9,7 +9,7 @@ services:
     networks:
       - default
     environment:
-      - API_URL=http://localhost:8081/api
+      - API_URL=http://thecountofmoney.nuage.best:8081/api
     restart: always
     depends_on:
       - api

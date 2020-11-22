@@ -135,12 +135,13 @@ export default {
             password: this.getModel('password'),
           },
         })
-        console.log('Loggedin: ', this.$store.state.auth.loggedIn)
         this.config.message.type = 'success'
         this.config.message.text = 'Successfully connected'
+        this.$router.push({ path: '/dashboard' })
       } catch (err) {
         this.config.message.type = 'error'
-        this.config.message.text = err
+        this.config.message.text =
+          typeof err.response !== 'undefined' ? err.response.data.message : err
       }
     },
 
@@ -148,7 +149,7 @@ export default {
       try {
         await this.$auth.loginWith('google')
         this.config.message.type = 'success'
-        this.config.message.text = 'Successfully connected'
+        this.config.message.text = 'Redirecting to Google'
       } catch (err) {
         this.config.message.type = 'error'
         this.config.message.text = err
