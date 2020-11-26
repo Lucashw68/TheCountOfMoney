@@ -3,13 +3,14 @@ version: "3"
 services:
 
   client_web:
-    build: "./client_web"
+    build:
+      context: "./client_web"
+      args:
+        API_URL: https://api.thecountofmoney.nuage.best/api
     ports:
       - "3000:3000"
     networks:
       - default
-    environment:
-      - API_URL=http://thecountofmoney.nuage.best:8081/api
     restart: always
     depends_on:
       - api

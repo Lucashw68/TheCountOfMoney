@@ -2,6 +2,7 @@
 
 FROM node:latest as build-stage
 ENV APP_ROOT /build
+ARG API_URL
 RUN mkdir ${APP_ROOT}
 WORKDIR ${APP_ROOT}
 COPY package*.json ${APP_ROOT}/

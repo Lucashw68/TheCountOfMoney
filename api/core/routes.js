@@ -9,6 +9,11 @@ const cryptosRouter = require("../routes/cryptos");
 const articlesRouter = require("../routes/articles");
 
 module.exports = function(app) {
+  // Root
+  app.get('/', function(req, res) {
+    res.sendFile('index.html', { root: 'public' });
+  });
+
   // Users
   app.use("/api/users/register", registerRouter)
   app.use("/api/users/login", loginRouter)

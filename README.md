@@ -12,5 +12,10 @@ docker-compose up --build
 
 # Running
 
-- Client web: http://51.75.122.116:3000/ || http://thecountofmoney.nuage.best:3000/
-- API: http://51.75.122.116:8081/ || http://thecountofmoney.nuage.best:8081/
+- Client web: https://thecountofmoney.nuage.best
+- API: https://api.thecountofmoney.nuage.best
+
+# Running dev
+
+- Client web: http://localhost:3000
+- API: http://localhost:8081
