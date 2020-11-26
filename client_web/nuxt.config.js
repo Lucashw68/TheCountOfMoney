@@ -42,7 +42,9 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.API_URL,
+    baseURL: process.env.NODE_ENV === 'production'
+      ? process.env.API_URL
+      : 'http://localhost:8081/api',
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -92,7 +94,5 @@ export default {
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {
-    analyze: process.env.NODE_ENV !== 'production',
-  },
+  build: {},
 }
