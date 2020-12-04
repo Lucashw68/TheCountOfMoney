@@ -163,9 +163,9 @@ export default {
   },
 
   mounted() {
-    if (Object.keys(this.$route.query).length > 0) {
-      console.log(this.$route.query.token)
-      this.getSignIn(this.$route.query.token)
+    if (Object.keys(this.$route.query).length > 0
+      && typeof this.$route.query.token !== 'undefined') {
+        this.getSignIn(this.$route.query.token)
     }
   },
 
@@ -194,7 +194,6 @@ export default {
         this.config.message.type = 'success'
         this.config.message.text = 'Redirecting to Google'
       } catch (err) {
-        console.log(err)
         this.config.message.type = 'error'
         this.config.message.text = err
       }
@@ -203,28 +202,6 @@ export default {
     loginGithub() {
       try {
         location.replace(this.$axios.defaults.baseURL + '/users/auth/github')
-        this.config.message.type = 'success'
-        this.config.message.text = 'Redirecting to Github'
-      } catch (err) {
-        this.config.message.type = 'error'
-        this.config.message.text = err
-      }
-    },
-
-    async loginGoogleNuxt() {
-      try {
-        await this.$auth.loginWith('google')
-        this.config.message.type = 'success'
-        this.config.message.text = 'Redirecting to Google'
-      } catch (err) {
-        this.config.message.type = 'error'
-        this.config.message.text = err
-      }
-    },
-
-    async loginGithubNuxt() {
-      try {
-        await this.$auth.loginWith('github')
         this.config.message.type = 'success'
         this.config.message.text = 'Redirecting to Github'
       } catch (err) {
