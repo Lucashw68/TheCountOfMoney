@@ -24,7 +24,9 @@ router.get('/google/callback',
   passport.authenticate("google-auth"),
   function(req, res) {
     const token = tokenManager.generateToken(req.user.id);
-    res.redirect(process.env.CLIENT_URL + '/login?token=' + token);
+    res.redirect((process.env.NODE_ENV === 'production'
+      ? process.env.CLIENT_PROD_URL
+      : process.env.CLIENT_DEV_URL) + '/login?token=' + token);
 });
 
 // =======================
@@ -38,7 +40,9 @@ router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
     const token = tokenManager.generateToken(req.user.id);
-    res.redirect(process.env.CLIENT_URL + '/login?token=' + token);
+    res.redirect((process.env.NODE_ENV === 'production'
+      ? process.env.CLIENT_PROD_URL
+      : process.env.CLIENT_DEV_URL) + '/login?token=' + token);
   });
 
 // =======================
@@ -47,7 +51,9 @@ router.get('/github/callback',
 
 router.get('/gmail', function(req, res, next) {
   if (!req.query.token)
-    res.redirect(process.env.CLIENT_URL + '/profile?service=gmail&success=false');
+    res.redirect((process.env.NODE_ENV === 'production'
+      ? process.env.CLIENT_PROD_URL
+      : process.env.CLIENT_DEV_URL) + '/profile?service=gmail&success=false');
   req.session.token = req.query.token;
   const authenticator = passport.authenticate("gmail-auth", {scope: googleConfig.gmailScopes, state: req.query.token, accessType: 'offline', prompt: 'consent'});
   authenticator(req, res, next);
@@ -56,9 +62,13 @@ router.get('/gmail', function(req, res, next) {
 router.get('/gmail/callback',
   passport.authenticate("gmail-auth"), function (req, res) {
     if (!req.user)
-      res.redirect(process.env.CLIENT_URL + '/profile?service=gmail&success=false');
+      res.redirect((process.env.NODE_ENV === 'production'
+        ? process.env.CLIENT_PROD_URL
+        : process.env.CLIENT_DEV_URL) + '/profile?service=gmail&success=false');
     else
-      res.redirect(process.env.CLIENT_URL + '/profile?service=gmail&success=true');
+      res.redirect((process.env.NODE_ENV === 'production'
+        ? process.env.CLIENT_PROD_URL
+        : process.env.CLIENT_DEV_URL) + '/profile?service=gmail&success=true');
 });
 
 // =======================
@@ -67,7 +77,9 @@ router.get('/gmail/callback',
 
 router.get('/twitter', function(req, res, next) {
     if (!req.query.token)
-      res.redirect(process.env.CLIENT_URL + '/profile?service=twitter&success=false');
+      res.redirect((process.env.NODE_ENV === 'production'
+        ? process.env.CLIENT_PROD_URL
+        : process.env.CLIENT_DEV_URL) + '/profile?service=twitter&success=false');
     req.session.token = req.query.token;
     const authenticator = passport.authenticate("twitter-auth", {scope: ["profile", "email"], state: req.query.token});
     authenticator(req, res, next);
@@ -76,9 +88,13 @@ router.get('/twitter', function(req, res, next) {
 router.get('/twitter/callback',
   passport.authenticate("twitter-auth"), function (req, res) {
     if (!req.user)
-      res.redirect(process.env.CLIENT_URL + '/profile?service=twitter&success=false');
+      res.redirect((process.env.NODE_ENV === 'production'
+        ? process.env.CLIENT_PROD_URL
+        : process.env.CLIENT_DEV_URL) + '/profile?service=twitter&success=false');
     else
-      res.redirect(process.env.CLIENT_URL + '/profile?service=twitter&success=true');
+      res.redirect((process.env.NODE_ENV === 'production'
+        ? process.env.CLIENT_PROD_URL
+        : process.env.CLIENT_DEV_URL) + '/profile?service=twitter&success=true');
 });
 
 module.exports = router;

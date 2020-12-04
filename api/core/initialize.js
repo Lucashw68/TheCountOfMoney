@@ -1,4 +1,4 @@
-const expressSession = require('express-session');
+const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const express = require('express');
@@ -44,10 +44,10 @@ module.exports = function(app) {
 
   app.use(cookieParser());
 
-  app.use(expressSession({
-      resave: false,
-      saveUninitialized: true,
-      secret: 'the-count-of-money-secret'
+  app.use(cookieSession({
+    name: 'the-count-of-money-session',
+    keys: ['the-count-of-money-secret'],
+    maxAge: 24 * 60 * 60 * 1000
   }));
 
   app.use(passport.initialize());
