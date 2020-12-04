@@ -74,18 +74,9 @@ export default {
         endpoints: {
           login: { url: '/users/login', method: 'post', propertyName: 'token' },
           user: { url: '/users/profile', method: 'get', propertyName: 'user' },
-          logout: false,
+          logout: { url: '/users/logout', method: 'post'},
         },
-      },
-      google: {
-        client_id:
-          '924336356846-arr31781d8d6bejs66spmkelgb6jnol2.apps.googleusercontent.com',
-      },
-      github: {
-        client_id: '825cd70a8e3c47f00542',
-        client_secret: 'ef9cdc7c1d34cbc1d27132f83d8f22b19c4e41b3',
-        scope: ['user'],
-      },
+      }
     },
   },
 
