@@ -10,12 +10,47 @@
         </div>
       </v-row>
 
-      <span style="width: 100%; height: 100%">
-        <v-container fluid fill-height>
+      <span v-if="!intro" style="width: 100%; height: 100%">
+        <v-container
+          fluid
+          fill-height
+          :class="$vuetify.breakpoint.mdAndDown ? 'pa-0' : 'padding: inherit'"
+        >
           <v-row justify="center" align="center">
-            <v-col v-for="(item, id) in buttons" :key="id" cols="1">
+            <v-col
+              v-if="$vuetify.breakpoint.mdAndUp"
+              cols="2"
+              style="position: absolute; left: 100px"
+            >
+              <span
+                class="display-2 font-weight-light pa-4"
+                style="
+                  border-radius: 20px;
+                  text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
+                    0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
+                    0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
+                    0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
+                    0 10px 10px rgba(0, 0, 0, 0.2),
+                    0 20px 20px rgba(0, 0, 0, 0.15);
+                "
+              >
+                Dashboard
+              </span>
+            </v-col>
+
+            <v-col
+              v-for="(item, id) in buttons"
+              :key="id"
+              :cols="$vuetify.breakpoint.mdAndDown ? 12 / buttons.length : 1"
+            >
               <v-row justify="center">
-                <v-btn :to="item.to" fab x-large color="#424242">
+                <v-btn
+                  :to="item.to"
+                  fab
+                  :x-large="$vuetify.breakpoint.mdAndUp"
+                  :large="$vuetify.breakpoint.mdAndDown"
+                  color="#424242"
+                >
                   <v-icon>{{ item.icon }}</v-icon>
                 </v-btn>
               </v-row>
@@ -24,15 +59,20 @@
 
           <client-only>
             <v-row justify="center" align="center">
-              <v-col cols="8">
+              <v-col :cols="$vuetify.breakpoint.mdAndUp ? 8 : 12">
                 <v-row justify="center" align="center">
                   <v-card
                     color="#424242"
-                    :style="`height: ${percent(70)}px;`"
+                    :style="
+                      $vuetify.breakpoint.mdAndDown
+                        ? `max-height: ${percent(70)}px;`
+                        : `height: ${percent(70)}px;`
+                    "
                     style="width: 90%"
                   >
-                    <v-card-title class="display-1 font-weight-light"
-                      >Cryptocurrency list</v-card-title
+                    <v-card-title
+                      class="display-1 text-center font-weight-light"
+                      >Currencies</v-card-title
                     >
                     <v-container fluid>
                       <crypto-card
@@ -49,14 +89,19 @@
                 </v-row>
               </v-col>
 
-              <v-col cols="4">
+              <v-col :cols="$vuetify.breakpoint.mdAndUp ? 4 : 12">
                 <v-row justify="center" align="center">
                   <v-card
-                    color="#848484"
-                    :style="`height: ${percent(70)}px;`"
+                    :color="$vuetify.breakpoint.mdAndUp ? '#848484' : '#424242'"
+                    :style="
+                      $vuetify.breakpoint.mdAndDown
+                        ? `max-height: ${percent(70)}px;`
+                        : `height: ${percent(70)}px;`
+                    "
                     style="width: 90%"
                   >
-                    <v-card-title class="display-1 font-weight-light"
+                    <v-card-title
+                      class="display-1 text-center font-weight-light"
                       >News feed</v-card-title
                     >
 
@@ -85,7 +130,7 @@
 <script>
 export default {
   name: 'Dashboard',
-  auth: false,
+  auth: true,
   layout: 'view',
 
   components: {
