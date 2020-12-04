@@ -74,9 +74,18 @@ export default {
         endpoints: {
           login: { url: '/users/login', method: 'post', propertyName: 'token' },
           user: { url: '/users/profile', method: 'get', propertyName: 'user' },
-          logout: { url: '/users/logout', method: 'post'},
+          logout: { url: '/users/logout', method: 'post' },
         },
-      }
+      },
+    },
+  },
+
+  pwa: {
+    manifest: {
+      name: 'TheCountOfMoney',
+      short_name: 'TCOM',
+      background_color: '#424242',
+      useWebmanifestExtension: false,
     },
   },
 

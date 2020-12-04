@@ -163,9 +163,11 @@ export default {
   },
 
   mounted() {
-    if (Object.keys(this.$route.query).length > 0
-      && typeof this.$route.query.token !== 'undefined') {
-        this.getSignIn(this.$route.query.token)
+    if (
+      Object.keys(this.$route.query).length > 0 &&
+      typeof this.$route.query.token !== 'undefined'
+    ) {
+      this.getSignIn(this.$route.query.token)
     }
   },
 
