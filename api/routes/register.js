@@ -5,7 +5,7 @@ const user = require('../database/user');
 
 router.post('/', function (req, res, next) {
     if (req.body.email !== undefined && req.body.password !== undefined && req.body.email.length > 0 && req.body.password.length > 0) {
-        let newUser = new user.UserModel({email: req.body.email, password: req.body.password});
+        let newUser = new user.UserModel({email: req.body.email, password: req.body.password, provider: 'local'});
         user.UserModel.find({ email: req.body.email}, function(err, users) {
             if (users === undefined || users.length === 0)
                 newUser.save(function (err, newUser) {

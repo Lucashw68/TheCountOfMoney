@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import DynamicForm from '@/components/forms/Form.vue'
+import { mapMutations } from 'vuex'
 export default {
   name: 'Register',
   auth: 'guest',
 
   components: {
-    DynamicForm,
+    DynamicForm: () => import('~/components/forms/Form.vue'),
   },
 
   data: () => ({
@@ -114,6 +114,8 @@ export default {
   }),
 
   methods: {
+    ...mapMutations('app', ['setDrawer']),
+
     async register() {
       try {
         await this.$axios.post('/users/register', {
@@ -128,7 +130,10 @@ export default {
             password: this.getModel('password'),
           },
         })
+        this.config.message.type = 'success'
+        this.config.message.text = 'Successfully connected'
         this.$router.push('/')
+        this.setDrawer(true)
       } catch (err) {
         this.config.message.type = 'error'
         this.config.message.text =

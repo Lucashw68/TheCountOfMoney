@@ -6,18 +6,27 @@
         @update:config="config = $event"
         @validate="login()"
       />
+      <v-btn
+        to="/register"
+        outlined
+        depressed
+        text
+        class="font-weight-light"
+        :class="$vuetify.breakpoint.mdAndUp ? 'headline' : 'overline'"
+      >
+        No account yet ? Create one here
+      </v-btn>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import DynamicForm from '@/components/forms/Form.vue'
 export default {
   name: 'Login',
   auth: 'guest',
 
   components: {
-    DynamicForm,
+    DynamicForm: () => import('~/components/forms/Form.vue'),
   },
 
   data: () => ({
@@ -94,7 +103,22 @@ export default {
             block: true,
             xlarge: true,
             dark: true,
-            shaped: true,
+            shaped: 'top',
+            icon: 'mdi-google',
+          },
+        },
+        {
+          model: false,
+          modelName: 'githubLoginButton',
+          name: 'actions-button',
+          directive: 'config',
+          options: {
+            label: 'Login with Github',
+            block: true,
+            xlarge: true,
+            dark: true,
+            shaped: 'bot',
+            icon: 'mdi-github',
           },
         },
       ],
@@ -104,6 +128,9 @@ export default {
   computed: {
     getButtonStateGoogle() {
       return this.config.components[2].model
+    },
+    getButtonStateGithub() {
+      return this.config.components[3].model
     },
   },
 
@@ -124,6 +151,22 @@ export default {
       },
       deep: true,
     },
+    getButtonStateGithub: {
+      handler(after, before) {
+        if (after) {
+          this.loginGithub()
+          this.config.components[3].model = before
+        }
+      },
+      deep: true,
+    },
+  },
+
+  mounted() {
+    if (Object.keys(this.$route.query).length > 0) {
+      console.log(this.$route.query.token)
+      this.getSignIn(this.$route.query.token)
+    }
   },
 
   methods: {
@@ -145,11 +188,63 @@ export default {
       }
     },
 
-    async loginGoogle() {
+    loginGoogle() {
+      try {
+        location.replace(this.$axios.defaults.baseURL + '/users/auth/google')
+        this.config.message.type = 'success'
+        this.config.message.text = 'Redirecting to Google'
+      } catch (err) {
+        console.log(err)
+        this.config.message.type = 'error'
+        this.config.message.text = err
+      }
+    },
+
+    loginGithub() {
+      try {
+        location.replace(this.$axios.defaults.baseURL + '/users/auth/github')
+        this.config.message.type = 'success'
+        this.config.message.text = 'Redirecting to Github'
+      } catch (err) {
+        this.config.message.type = 'error'
+        this.config.message.text = err
+      }
+    },
+
+    async loginGoogleNuxt() {
       try {
         await this.$auth.loginWith('google')
         this.config.message.type = 'success'
         this.config.message.text = 'Redirecting to Google'
+      } catch (err) {
+        this.config.message.type = 'error'
+        this.config.message.text = err
+      }
+    },
+
+    async loginGithubNuxt() {
+      try {
+        await this.$auth.loginWith('github')
+        this.config.message.type = 'success'
+        this.config.message.text = 'Redirecting to Github'
+      } catch (err) {
+        this.config.message.type = 'error'
+        this.config.message.text = err
+      }
+    },
+
+    async getSignIn(token) {
+      try {
+        const res = await this.$axios.$get('/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        this.$auth.setUser(res.user)
+        this.$auth.setStrategy('local')
+        this.config.message.type = 'success'
+        this.config.message.text = 'Successfully connected'
+        this.$router.push('/')
       } catch (err) {
         this.config.message.type = 'error'
         this.config.message.text = err
