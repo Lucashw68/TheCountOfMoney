@@ -54,7 +54,6 @@
       v-else
       text
       outlined
-      x-large
       exact
       active-class="active"
       to="/login"

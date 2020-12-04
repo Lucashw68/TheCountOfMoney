@@ -5,21 +5,21 @@
     :style="`background-color: ${color};`"
     @click="$router.push({ path: `/cryptos/${name}` })"
   >
-    <v-col cols="2">
+    <v-col v-if="!responsive" cols="2">
       <v-avatar>
         <v-img :src="image" />
       </v-avatar>
     </v-col>
 
-    <v-col cols="2">
+    <v-col :cols="responsive ? 6 : 2">
       <span class="headline font-weight-light">{{ name }}</span>
     </v-col>
 
-    <v-col cols="4">
+    <v-col :cols="responsive ? 6 : 4">
       <v-row id="chart" justify="center" align="center">
         <v-sparkline
           v-if="toDraw"
-          style="height: 64px"
+          :style="responsive ? 'height: 32px;' : 'height: 64px;'"
           height="64"
           :value="chartValue"
           :gradient="gradient"
@@ -42,11 +42,11 @@
       </v-row>
     </v-col>
 
-    <v-col cols="2">
+    <v-col v-if="!responsive" cols="2">
       <span class="headline font-weight-light">{{ value }}€</span>
     </v-col>
 
-    <v-col cols="2">
+    <v-col v-if="!responsive" cols="2">
       <v-icon color="green" left class="pb-2">mdi-arrow-top-right</v-icon>
       <span class="headline font-weight-light">+3.4%</span>
     </v-col>
@@ -99,6 +99,12 @@ export default {
     type: 'trend',
     autoLineWidth: false,
   }),
+
+  computed: {
+    responsive() {
+      return this.$vuetify.breakpoint.mdAndDown
+    },
+  },
 
   watch: {
     toDraw: {
