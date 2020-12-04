@@ -6,7 +6,10 @@ function printUsage() {
 }
 
 function parsing() {
-  args=("$@")
+  args=("$1")
+  if [[ ! -z "$2" ]]; then
+    tag="-$2"
+  fi
   case ${args} in
       major )
         major ;;
@@ -14,6 +17,8 @@ function parsing() {
         minor ;;
       patch )
         patch ;;
+      manual )
+        manual ;;
       * )
         printUsage ;;
   esac
@@ -94,7 +99,7 @@ function major() {
   majorVersion=$((majorVersion+1))
   minorVersion=0
   patchVersion=0
-  newVersion=${majorVersion}.${minorVersion}.${patchVersion}
+  newVersion=${majorVersion}.${minorVersion}.${patchVersion}${tag}
   echo "New Major release" [$newVersion]
   createRelease
 }
@@ -102,21 +107,44 @@ function major() {
 function minor() {
   minorVersion=$((minorVersion+1))
   patchVersion=0
-  newVersion=${majorVersion}.${minorVersion}.${patchVersion}
+  newVersion=${majorVersion}.${minorVersion}.${patchVersion}${tag}
   echo "New Minor release" [$newVersion]
   createRelease
 }
 
 function patch() {
   patchVersion=$((patchVersion+1))
-  newVersion=${majorVersion}.${minorVersion}.${patchVersion}
+  newVersion=${majorVersion}.${minorVersion}.${patchVersion}${tag}
   echo "New Patch release" [$newVersion]
   createRelease
 }
 
-readme="$(cat GIT_README.md)"
+function manual() {
+  echo "Type the version | format: X.X.X"
+  read inputVersion
+  majorVersion=$(echo $inputVersion | cut -d . -f 1)
+  echo major [$majorVersion]
+  minorVersion=$(echo $inputVersion | cut -d . -f 2)
+  echo minor [$minorVersion]
+  patchVersion=$(echo $inputVersion | cut -d . -f 3)
+  echo patch [$patchVersion]
+  newVersion=${majorVersion}.${minorVersion}.${patchVersion}${tag}
+  echo "Confirm new version [$newVersion] ? [y/n]"
+  read confirm
+  if [[ "$confirm" == "y" ]]
+  then
+    echo "New manual version release" [$newVersion]
+    createRelease
+  else
+    echo "Canceled release"
+    echo "Exiting..."
+    exit 1
+  fi
+}
+
+readme="$(cat RELEASE.md)"
 files=(./api/package.json ./client_web/package.json)
-if [[ "$#" -lt "1" || "$#" -gt "1" || "$1" = "-h" ]]
+if [[ "$#" -lt "1" || "$#" -gt "2" || "$1" = "-h" ]]
 then
   printUsage
 fi
