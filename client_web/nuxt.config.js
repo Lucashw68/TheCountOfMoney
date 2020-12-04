@@ -14,7 +14,7 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['~/css/main.css'],
+  css: ['~/css/main.css', '~/assets/fonts/fonts.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [],
@@ -42,9 +42,10 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.NODE_ENV === 'production'
-      ? process.env.API_URL
-      : 'http://localhost:8081/api',
+    baseURL:
+      process.env.NODE_ENV === 'production'
+        ? process.env.API_URL
+        : 'http://localhost:8081/api',
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -79,6 +80,11 @@ export default {
       google: {
         client_id:
           '924336356846-arr31781d8d6bejs66spmkelgb6jnol2.apps.googleusercontent.com',
+      },
+      github: {
+        client_id: '825cd70a8e3c47f00542',
+        client_secret: 'ef9cdc7c1d34cbc1d27132f83d8f22b19c4e41b3',
+        scope: ['user'],
       },
     },
   },

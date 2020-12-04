@@ -28,6 +28,7 @@ services:
     environment:
       - PORT=8081
       - DB_URL=mongodb://mongodb-com
+      - CLIENT_URL=http://localhost:3000
     depends_on:
       - mongodb-api
     restart: on-failure

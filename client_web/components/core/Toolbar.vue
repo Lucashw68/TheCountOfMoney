@@ -5,41 +5,62 @@
     app
     style="box-shadow: 0px 0px 35px 6px #121212"
   >
-    <v-app-bar-nav-icon @click.stop="toggleDrawer" />
-    <v-btn
-      v-if="drawer"
-      class="mx-4"
-      fab
-      small
-      depressed
-      color="#424242"
-      @click.stop="toggleMini"
-    >
-      <v-icon>{{ mini ? 'mdi-arrow-right' : 'mdi-arrow-left' }}</v-icon>
-    </v-btn>
+    <v-app-bar-nav-icon
+      v-if="$vuetify.breakpoint.mdAndUp"
+      @click.stop="toggleDrawer"
+    />
+
     <v-toolbar-title class="font-weight-light headline" v-text="title" />
 
     <v-spacer />
 
-    <v-btn v-if="isAuthenticated">
+    <v-btn
+      v-if="isAuthenticated && $vuetify.breakpoint.mdAndUp"
+      to="/profile"
+      class="mx-4"
+      outlined
+      text
+    >
       <v-row justify="end" align="center">
-        <v-avatar class="mx-4">
+        <v-avatar class="mx-2">
           <v-img
             style="background-color: white"
+            class="avatar"
+            lazy-src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Youtube_loading_symbol_1_(wobbly).gif"
             :src="
-              loggedInUser.picture ||
-              `https://avatars.dicebear.com/v2/male/${loggedInUser.email}.svg`
+              this.$store.state.auth.user.provider === 'local'
+                ? `https://avatars.dicebear.com/v2/male/${loggedInUser.email}.svg`
+                : loggedInUser[`${this.$store.state.auth.user.provider}`].avatar
             "
           />
         </v-avatar>
-        <span class="subtitle mx-4">
-          {{ loggedInUser.name || loggedInUser.email }}
+        <span class="text-center font-weight-light headline mx-4">
+          {{ loggedInUser.username || loggedInUser.email || '- - -' }}
         </span>
       </v-row>
     </v-btn>
 
-    <v-btn v-if="isAuthenticated" text x-large @click.stop="logout()">
+    <v-btn
+      v-if="isAuthenticated"
+      outlined
+      text
+      class="text-center font-weight-light headline"
+      @click.stop="logout()"
+    >
       Logout
+    </v-btn>
+
+    <v-btn
+      v-else
+      text
+      outlined
+      x-large
+      exact
+      active-class="active"
+      to="/login"
+      class="text-center font-weight-light headline"
+    >
+      Login
     </v-btn>
   </v-app-bar>
 </template>
@@ -90,4 +111,12 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.active {
+  background-color: cyan;
+  background-color: rgba(0, 255, 255, 0.5);
+}
+.avatar {
+  border: 4px solid white;
+}
+</style>

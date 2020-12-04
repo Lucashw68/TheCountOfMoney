@@ -1,21 +1,32 @@
 <template>
   <v-app dark>
-    <core-toolbar />
-    <core-drawer />
-    <core-view />
+    <client-only>
+      <core-toolbar v-if="toolbar" />
+      <core-drawer v-if="desktop" />
+      <core-bottom-toolbar v-else />
+      <core-view />
+    </client-only>
   </v-app>
 </template>
 
 <script>
-import CoreDrawer from '@/components/core/Drawer.vue'
-import CoreToolbar from '@/components/core/Toolbar.vue'
-import CoreView from '@/components/core/View.vue'
 export default {
   components: {
-    CoreToolbar,
-    CoreDrawer,
-    CoreView,
+    CoreBottomToolbar: () => import('~/components/core/BottomToolbar.vue'),
+    CoreToolbar: () => import('~/components/core/Toolbar.vue'),
+    CoreDrawer: () => import('~/components/core/Drawer.vue'),
+    CoreView: () => import('~/components/core/View.vue'),
   },
   data: () => ({}),
+
+  computed: {
+    desktop() {
+      return this.$vuetify.breakpoint.mdAndUp
+    },
+
+    toolbar() {
+      return this.$store.state.app.toolbar
+    },
+  },
 }
 </script>
