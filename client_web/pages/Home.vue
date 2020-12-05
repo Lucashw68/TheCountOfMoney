@@ -16,6 +16,7 @@
           >
             Keep informed and beat the coins
           </span>
+          <!-- <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/Lucashw68/TheCountOfMoney?style=for-the-badge"> -->
         </v-row>
 
         <v-row
@@ -31,6 +32,12 @@
             your favorites cryptocurrencies and the stay tuned with their news.
           </p>
         </v-row>
+
+        <img
+          style="position: absolute; top: 10px; right: 10px"
+          alt="GitHub tag (latest by date)"
+          src="https://img.shields.io/github/v/tag/Lucashw68/TheCountOfMoney"
+        />
 
         <v-row justify="center" align="center">
           <v-container fluid fill-height>
