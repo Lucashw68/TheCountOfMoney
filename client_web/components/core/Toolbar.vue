@@ -10,13 +10,13 @@
       @click.stop="toggleDrawer"
     />
 
-    <v-toolbar-title class="font-weight-light headline" v-text="title" />
+    <v-toolbar-title class="font-weight-light headline" v-text="$t(title)" />
 
     <v-spacer />
 
     <v-btn
       v-if="isAuthenticated && $vuetify.breakpoint.mdAndUp"
-      to="/profile"
+      :to="localePath('profile')"
       class="mx-4"
       outlined
       text
@@ -47,7 +47,7 @@
       class="text-center font-weight-light headline"
       @click.stop="logout()"
     >
-      Logout
+      {{ $t('logout') }}
     </v-btn>
 
     <v-btn
@@ -56,10 +56,10 @@
       outlined
       exact
       active-class="active"
-      to="/login"
+      :to="localePath('login')"
       class="text-center font-weight-light headline"
     >
-      Login
+      {{ $t('login.validate') }}
     </v-btn>
   </v-app-bar>
 </template>
@@ -75,7 +75,7 @@ export default {
     ...mapState('app', ['mini', 'drawer']),
 
     title() {
-      return this.$nuxt.$route.name
+      return 'views.' + this.getRouteBaseName()
     },
 
     isAuthenticated() {
@@ -93,7 +93,7 @@ export default {
     async logout() {
       try {
         await this.$auth.logout()
-        this.$router.push({ path: '/home' })
+        this.$router.push({ path: this.localePath('index') })
       } catch (err) {
         console.log(err)
       }

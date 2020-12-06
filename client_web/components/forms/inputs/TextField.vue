@@ -11,10 +11,14 @@
     :autocomplete="config.autocomplete || false"
     :required="config.required || false"
     :counter="config.counter || 0"
-    :label="config.label || '...'"
+    :label="$t(config.label) || '...'"
     :type="config.type || 'text'"
     :rules="config.rules"
-  ></v-text-field>
+  >
+    <template #message="{ message }">
+      {{ $t(message) }}
+    </template>
+  </v-text-field>
 </template>
 
 <script>

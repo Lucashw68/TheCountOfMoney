@@ -1,0 +1,30 @@
+{
+  "home": {
+    "en": "/home",
+    "fr": "/accueil"
+  },
+  "login": {
+    "en": "/login",
+    "fr": "/connexion"
+  },
+  "register": {
+    "en": "/register",
+    "fr": "/inscription"
+  },
+  "about": {
+    "en": "/about",
+    "fr": "/a-propos"
+  },
+  "dashboard": {
+    "en": "/dashboard",
+    "fr": "/dashboard"
+  },
+  "profile": {
+    "en": "/profile",
+    "fr": "/profil"
+  },
+  "settings": {
+    "en": "/settings",
+    "fr": "/parametres"
+  }
+}

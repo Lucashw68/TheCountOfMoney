@@ -15,7 +15,7 @@
     @click="model = true"
   >
     <v-icon left class="pr-4">{{ config.icon }}</v-icon>
-    <span>{{ config.label | capitalize }}</span>
+    <span>{{ $t(config.label) | capitalize }}</span>
   </v-btn>
 </template>
 
