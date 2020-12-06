@@ -3,7 +3,7 @@
     <transition name="fade" mode="out-in">
       <v-row v-if="intro" justify="center" align="center">
         <span class="display-2 text-center font-weight-light px-4">
-          Dashboard
+          {{ $t('dashboard.title') }}
         </span>
         <div class="fingerprint-spinner">
           <div v-for="i in 9" :key="i" class="spinner-ring"></div>
@@ -20,6 +20,7 @@
             <v-col
               v-if="$vuetify.breakpoint.mdAndUp"
               cols="2"
+              class="text-center"
               style="position: absolute; left: 100px"
             >
               <span
@@ -34,7 +35,7 @@
                     0 20px 20px rgba(0, 0, 0, 0.15);
                 "
               >
-                Dashboard
+                {{ $t('dashboard.title') }}
               </span>
             </v-col>
 
@@ -45,7 +46,7 @@
             >
               <v-row justify="center">
                 <v-btn
-                  :to="item.to"
+                  :to="localePath(item.to)"
                   fab
                   :x-large="$vuetify.breakpoint.mdAndUp"
                   :large="$vuetify.breakpoint.mdAndDown"
@@ -72,7 +73,7 @@
                   >
                     <v-card-title
                       class="display-1 text-center font-weight-light"
-                      >Currencies</v-card-title
+                      >{{ $t('dashboard.currencies') }}</v-card-title
                     >
                     <v-container fluid>
                       <crypto-card
@@ -102,7 +103,7 @@
                   >
                     <v-card-title
                       class="display-1 text-center font-weight-light"
-                      >News feed</v-card-title
+                      >{{ $t('dashboard.newsfeed') }}</v-card-title
                     >
 
                     <v-container fluid>
@@ -140,29 +141,6 @@ export default {
 
   data: () => ({
     intro: true,
-    buttons: [
-      {
-        name: 'Home',
-        to: '/home',
-        icon: 'mdi-arrow-left',
-      },
-      {
-        name: 'Currencies settings',
-        to: '/dashboard/preferences',
-        icon: 'mdi-bitcoin',
-      },
-      {
-        name: 'Articles settings',
-        to: '/dashboard/preferences',
-        icon: 'mdi-newspaper-variant',
-      },
-      {
-        name: 'Alerts',
-        to: '/dashboard/alerts',
-        icon: 'mdi-bell-alert',
-      },
-    ],
-
     cryptos: [
       {
         name: 'Bitcoin',
@@ -194,6 +172,34 @@ export default {
       },
     ],
   }),
+
+  computed: {
+    buttons() {
+      const buttons = [
+        {
+          name: this.$i18n.t('dashboard.button.home.name'),
+          to: 'home',
+          icon: 'mdi-arrow-left',
+        },
+        {
+          name: this.$i18n.t('dashboard.button.crypto-settings.name'),
+          to: 'dashboard',
+          icon: 'mdi-bitcoin',
+        },
+        {
+          name: this.$i18n.t('dashboard.button.article-settings.name'),
+          to: 'dashboard',
+          icon: 'mdi-newspaper-variant',
+        },
+        {
+          name: this.$i18n.t('dashboard.button.alerts.name'),
+          to: 'dashboard',
+          icon: 'mdi-bell-alert',
+        },
+      ]
+      return buttons
+    },
+  },
 
   mounted() {
     setTimeout(() => {

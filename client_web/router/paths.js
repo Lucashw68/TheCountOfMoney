@@ -5,7 +5,7 @@ export default [
 
   {
     path: '/home',
-    name: 'Home',
+    name: 'home',
     icon: 'mdi-home',
     group: 'top',
     public: true,
@@ -21,7 +21,7 @@ export default [
 
   {
     path: '/about',
-    name: 'About',
+    name: 'about',
     icon: 'mdi-information',
     group: 'top',
     public: true,
@@ -37,7 +37,7 @@ export default [
 
   {
     path: '/dashboard',
-    name: 'Dashboard',
+    name: 'dashboard',
     icon: 'mdi-monitor-dashboard',
     group: 'top',
     public: false,
@@ -53,7 +53,7 @@ export default [
 
   {
     path: '/profile',
-    name: 'Profile',
+    name: 'profile',
     icon: 'mdi-account',
     group: 'top',
     public: false,
@@ -69,7 +69,7 @@ export default [
 
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     icon: 'mdi-account-circle',
     group: 'bot',
     public: true,
@@ -85,7 +85,7 @@ export default [
 
   {
     path: '/register',
-    name: 'Register',
+    name: 'register',
     icon: 'mdi-account-plus',
     group: 'bot',
     public: true,
@@ -101,7 +101,7 @@ export default [
 
   {
     path: '/settings',
-    name: 'Settings',
+    name: 'settings',
     icon: 'mdi-cog',
     group: 'top',
     public: true,

@@ -1,0 +1,132 @@
+{
+  "views": {
+    "home": "Accueil",
+    "about": "A propos",
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "login": "Connexion",
+    "register": "Inscription",
+    "settings": "Paramètres"
+  },
+
+  "index": {
+    "loading": "Chargement...",
+    "completed": "Complet."
+  },
+
+  "home": {
+    "title": "Restez informés, dominez le marché",
+    "description": "TheCountOfMoney est une plateforme web qui vous permet de suivre le cours de vos cryptomonnaies favorites et de leurs actualités en temps réel.",
+    "buttons": {
+      "documentation": "Documentation",
+      "get_started": "Démarrer",
+      "profile": "Profil",
+      "login": "Connexion"
+    }
+  },
+
+  "login": {
+    "title": "Connectez-vous",
+    "validate": "Connexion",
+    "no-account": "Pas de compte ? Inscription",
+    "label-email": "Email",
+    "label-password": "Mot de passe",
+    "label-google": "Connexion Google",
+    "label-github": "Connexion Github",
+    "rules": {
+      "email-required": "Adresse email requise",
+      "email-invalid": "Adresse email invalide",
+      "email-length": "Doit être supérieur à 4 caractères",
+      "password-required": "Mot de passe requis",
+      "password-length": "Doit être supérieur à 7 caractères"
+    },
+    "success": "Connexion réussie",
+    "redirect-google": "Redirection vers Google",
+    "redirect-github": "Redirection vers Github"
+  },
+
+  "logout": "Déconnexion",
+
+  "register": {
+    "title": "Créez votre compte",
+    "validate": "Inscription",
+    "label-email": "Email",
+    "label-username": "Nom d'utilisateur",
+    "label-password": "Mot de passe",
+    "rules": {
+      "email-required": "Adresse email requise",
+      "email-invalid": "Adresse email invalide",
+      "email-length": "Doit être supérieur à 4 caractères",
+      "username-required": "Nom d'utilisateur requis",
+      "username-length": "Doit être supérieur à 2 caractères",
+      "password-required": "Mot de passe requis",
+      "password-length": "Doit être supérieur à 7 caractères"
+    },
+    "success": "Inscription réussie"
+  },
+
+  "profile": {
+    "title": "Votre profil",
+    "edit": "Editer vos infos",
+    "delete": "Supprimer le compte",
+    "account": "compte",
+    "button": {
+      "back": "Retour au profil",
+      "edit": "Éditer le profil",
+      "view": "Voir le profil"
+    },
+    "services": {
+      "gmail": {
+        "title": "Service Gmail",
+        "button": "Associer"
+      },
+      "twitter": {
+        "title": "Service Twitter",
+        "button": "Associer"
+      }
+    }
+  },
+
+  "dashboard": {
+    "title": "Tableau de bord",
+    "currencies": "Cryptomonnaies",
+    "newsfeed": "Fil d'actualités",
+    "button": {
+      "home": {
+        "name": "Accueil"
+      },
+      "crypto-settings": {
+        "name": "Paramètres cryptos"
+      },
+      "article-settings": {
+        "name": "Paramètres articles"
+      },
+      "alerts": {
+        "name": "Vos alertes"
+      }
+    }
+  },
+
+  "about": {
+    "title": "A propos"
+  },
+
+  "settings": {
+    "display": {
+      "title": "AFFICHAGE",
+      "layout": "Disposition",
+      "drawer": "Menu",
+      "hide": "Cacher",
+      "display": "Afficher",
+      "toolbar": "Barre",
+      "background": "Fond d'écran"
+    },
+    "language": {
+      "title": "LANGUES",
+      "locales": {
+        "english": "Anglais",
+        "french": "Français"
+      }
+    }
+  }
+}

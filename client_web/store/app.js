@@ -1,4 +1,4 @@
-import { set, toggle } from '@/utils/store'
+import { set, toggle } from '@/config/store'
 
 export const state = () => ({
   toolbar: true,

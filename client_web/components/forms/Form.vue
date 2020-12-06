@@ -10,7 +10,7 @@
         <v-card id="form-title" :color="color">
           <v-card-title id="title"
             ><v-icon class="pr-4" dark large>{{ config.icon }}</v-icon
-            >{{ config.title | capitalize }}</v-card-title
+            >{{ $t(config.title) | capitalize }}</v-card-title
           >
         </v-card>
 
@@ -54,7 +54,7 @@
                       :color="color"
                       @click="validate()"
                     >
-                      <span>{{ config.validate || 'Validate' }}</span>
+                      <span>{{ $t(config.validate) || 'Validate' }}</span>
                     </v-btn>
                   </v-flex>
                 </v-layout>

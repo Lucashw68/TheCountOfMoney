@@ -14,7 +14,7 @@
         v-show="$vuetify.breakpoint.mdAndUp"
         class="display-2 text-center font-weight-light"
       >
-        Your profile
+        {{ $t('profile.title') }}
       </span>
     </v-row>
 
@@ -38,13 +38,13 @@
         />
       </v-col>
 
-      <v-col v-if="selected === 'email'" :key="'mabite'" cols="8">
+      <v-col v-if="selected === 'email'" key="edit" cols="8">
         <component
           :is="'profile-form-card'"
           :index="0"
-          title="Edit your informations"
+          :title="$t('profile.edit')"
           name="- - -"
-          button-text="Delete Account"
+          :button-text="$t('profile.delete')"
         />
       </v-col>
     </transition-group>
@@ -99,7 +99,7 @@ export default {
         {
           service: 'email',
           component: 'profile-card',
-          title: `${this.accountStrategy} account`,
+          title: `${this.accountStrategy} ${this.$i18n.t('profile.account')}`,
           name:
             this.loggedInUser.username || this.loggedInUser.email || '- - -',
           image:
@@ -110,29 +110,29 @@ export default {
           buttonText:
             this.accountStrategy === 'Email'
               ? this.selected !== null
-                ? 'Back to profile'
-                : 'Edit profile'
-              : 'View profile',
+                ? this.$i18n.t('profile.button.back')
+                : this.$i18n.t('profile.button.edit')
+              : this.$i18n.t('profile.button.view'),
           color: '#424242',
         },
         {
           service: 'gmail',
           component: 'profile-card',
-          title: 'Gmail service',
+          title: this.$i18n.t('profile.services.gmail.title'),
           name: '- - -',
           image:
             'https://www.shareicon.net/data/2015/10/03/111547_email_512x512.png',
-          buttonText: 'Associate',
+          buttonText: this.$i18n.t('profile.services.gmail.button'),
           color: '#424242',
         },
         {
-          service: 'github',
+          service: 'twitter',
           component: 'profile-card',
-          title: 'Twitter service',
+          title: this.$i18n.t('profile.services.twitter.title'),
           name: '- - -',
           image:
             'https://culliganrecrute.fr/wp-content/uploads/2018/01/twitter-logo-1-1.png',
-          buttonText: 'Associate',
+          buttonText: this.$i18n.t('profile.services.gmail.button'),
           color: 'transparent',
         },
       ]

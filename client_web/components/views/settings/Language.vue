@@ -3,10 +3,6 @@
     <v-row justify="center" align="center" class="pt-4">
       <v-card color="#424242" height="400" style="width: 100%">
         <v-container fluid fill-height>
-          <!-- <v-row justify="center" align="center">
-            <span class="display-2 text-center text-weight-light" style="color: #424242">English</span>
-          </v-row> -->
-
           <v-row justify="center" align="center">
             <v-col cols="auto">
               <v-btn fab outlined @click="language--">
@@ -18,7 +14,9 @@
                 class="text-center font-weight-light"
                 :class="$vuetify.breakpoint.smAndDown ? 'text-h5' : 'display-2'"
               >
-                {{ languages[language].name }}
+                {{
+                  $t(`settings.language.locales.${languages[language].name}`)
+                }}
               </span>
             </v-col>
             <v-col cols="auto">
@@ -47,12 +45,14 @@ export default {
     language: 0,
     languages: [
       {
-        name: 'English',
+        code: 'en',
+        name: 'english',
         img:
           'https://cdn.countryflags.com/thumbs/united-kingdom/flag-button-round-250.png',
       },
       {
-        name: 'French',
+        code: 'fr',
+        name: 'french',
         img:
           'https://cdn.countryflags.com/thumbs/france/flag-button-round-250.png',
       },
@@ -67,8 +67,15 @@ export default {
         } else if (val < 0) {
           this.language = this.languages.length - 1
         }
+        this.$i18n.setLocale(this.languages[this.language].code)
       },
     },
+  },
+
+  mounted() {
+    this.language = this.languages.findIndex(
+      (item) => item.code === this.$i18n.locale
+    )
   },
 }
 </script>

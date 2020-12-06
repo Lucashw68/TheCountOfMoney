@@ -1,0 +1,132 @@
+{
+  "views": {
+    "home": "Home",
+    "about": "About",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "login": "Login",
+    "register": "Register",
+    "settings": "Settings"
+  },
+
+  "index": {
+    "loading": "Loading...",
+    "completed": "Completed."
+  },
+
+  "home": {
+    "title": "Keep informed and beat the coins",
+    "description": "TheCountOfMoney is a web platform to follow in realtime the price of your favorites cryptocurrencies and the stay tuned with their news.",
+    "buttons": {
+      "documentation": "Documentation",
+      "get_started": "Get started",
+      "profile": "Profile",
+      "login": "Login"
+    }
+  },
+
+  "login": {
+    "title": "Login to your account",
+    "validate": "Login",
+    "no-account": "No account yet ? Create one here",
+    "label-email": "Email",
+    "label-password": "Password",
+    "label-google": "Login with Google",
+    "label-github": "Login with Github",
+    "rules": {
+      "email-required": "Email required",
+      "email-invalid": "Invalid email address",
+      "email-length": "Email must be superior than 4 characters",
+      "password-required": "Password required",
+      "password-length": "Password must be superior than 7 characters"
+    },
+    "success": "Succesfully connected",
+    "redirect-google": "Redirecting to Google",
+    "redirect-github": "Redirecting to Github"
+  },
+
+  "logout": "Logout",
+
+  "register": {
+    "title": "Create your account",
+    "validate": "Register",
+    "label-email": "Email",
+    "label-username": "Username",
+    "label-password": "Password",
+    "rules": {
+      "email-required": "Email required",
+      "email-invalid": "Invalid email address",
+      "email-length": "Email must be superior than 4 characters",
+      "username-required": "Username required",
+      "username-length": "Username must be superior than 2 characters",
+      "password-required": "Password required",
+      "password-length": "Password must be superior than 7 characters"
+    },
+    "success": "Succesfully registered"
+  },
+
+  "profile": {
+    "title": "Your profile",
+    "edit": "Edit your informations",
+    "delete": "Delete account",
+    "account": "account",
+    "button": {
+      "back": "Back to profile",
+      "edit": "Edit profile",
+      "view": "View profile"
+    },
+    "services": {
+      "gmail": {
+        "title": "Gmail service",
+        "button": "Associate"
+      },
+      "twitter": {
+        "title": "Twitter service",
+        "button": "Associate"
+      }
+    }
+  },
+
+  "dashboard": {
+    "title": "Dashboard",
+    "currencies": "Currencies",
+    "newsfeed": "Newsfeed",
+    "button": {
+      "home": {
+        "name": "Home"
+      },
+      "crypto-settings": {
+        "name": "Currencies settings"
+      },
+      "article-settings": {
+        "name": "Articles settings"
+      },
+      "alerts": {
+        "name": "Alerts"
+      }
+    }
+  },
+
+  "about": {
+    "title": "About page"
+  },
+
+  "settings": {
+    "display": {
+      "title": "DISPLAY",
+      "layout": "Layout",
+      "drawer": "Drawer",
+      "hide": "Hide",
+      "display": "Display",
+      "toolbar": "Toolbar",
+      "background": "Background"
+    },
+    "language": {
+      "title": "LANGUAGE",
+      "locales": {
+        "english": "English",
+        "french": "French"
+      }
+    }
+  }
+}

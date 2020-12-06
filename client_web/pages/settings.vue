@@ -13,7 +13,7 @@
               class="text-center font-weight-light"
               :class="$vuetify.breakpoint.smAndDown ? 'text-h5' : 'display-2'"
             >
-              {{ pages[page].title }}
+              {{ $t(`settings.${pages[page].title}.title`) }}
             </span>
           </v-col>
           <v-col cols="auto">
@@ -52,8 +52,8 @@ export default {
   data: () => ({
     page: 0,
     pages: [
-      { title: 'DISPLAY', name: 'display-settings' },
-      { title: 'LANGUAGE', name: 'language-settings' },
+      { title: 'display', name: 'display-settings' },
+      { title: 'language', name: 'language-settings' },
     ],
   }),
 
@@ -67,12 +67,6 @@ export default {
         }
       },
     },
-  },
-
-  mounted() {
-    setTimeout(() => {
-      console.log('transition')
-    }, 2000)
   },
 }
 </script>
