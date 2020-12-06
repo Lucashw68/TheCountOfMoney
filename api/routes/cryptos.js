@@ -1,34 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const user = require('../database/user');
-const tokenManager = require('../utils/token');
+const cryptoController = require('../controllers/crypto.controller');
 
-router.post('/', function (req, res, next) {
-    if (req.body.email !== undefined && req.body.password !== undefined) {
-        user.UserModel.findOne({ email: req.body.email }, function(err, user) {
-            if (user !== undefined && user !== null && req.body.password === user.password) {
-                res.status(200);
-                res.send({
-                    success: true,
-                    message: "Connected",
-                    token: tokenManager.generateToken(user.id)
-                });
-            } else {
-                res.status(403);
-                res.send({
-                    success: false,
-                    message: "Invalid credentials"
-                });
-            }
-        });
-    } else {
-        res.status(400);
-        res.send({
-            success: false,
-            message: "Invalid credentials"
-        });
-    }
-});
+// @desc    Get all cryptos entries in db
+// @route   GET /cryptos/all
+router.get('/all', cryptoController.getAllCryptos);
+
+// @desc    Get list of cryptos by cmid. Ex: BTC,ETH,RBX
+// @route   GET /cryptos?cmids=BTC,ETH,RBX
+router.get('/', cryptoController.getAll);
+
+// @desc    Get crypto by cmid. Ex: BTC
+// @route   GET /cryptos/{:cmid}
+router.get('/:cmid', cryptoController.getById);
+
+// @desc    Get crypto by cmid and period
+// @route   GET /cryptos/{:cmid}/history/{:period}
+router.get('/:cmid/history/:period', cryptoController.getHistory);
+
+// @desc    Create crypto entry in db
+// @route   POST /cryptos
+router.post('/', cryptoController.create);
+
+// @desc    Delete crypto passed in route
+// @route   DELETE /cryptos/{:cmid}
+router.delete('/:cmid', cryptoController.delete);
 
 module.exports = router;
