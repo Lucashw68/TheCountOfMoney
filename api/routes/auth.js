@@ -1,25 +1,23 @@
-let express = require('express');
-let router = express.Router();
-let axios = require('axios').default;
-let qs = require('querystring');
-let twitterConfig = require('../config/twitter');
-let googleConfig = require('../config/google');
-let githubConfig = require('../config/github');
-let passport = require('../config/passport');
-let User = require('../database/user').UserModel;
-let tokenManager = require('../utils/token');
-let jwt = require('jsonwebtoken');
-let config = require('../config/jwt_token');
-let {OAuth2Client} = require('google-auth-library');
+const express = require('express');
+const router = express.Router();
+const twitterConfig = require('../config/twitter');
+const googleConfig = require('../config/google');
+const githubConfig = require('../config/github');
+const passport = require('../config/passport');
+const tokenManager = require('../utils/token');
 
 // =======================
 // Google auth
 // =======================
 
+// @desc    Authentication with google
+// @route   GET /users/auth/google
 router.get('/google',
   passport.authenticate("google-auth", { scope: ["profile", "email"], accessType: 'offline' })
 );
 
+// @desc    Callback authentication google
+// @route   GET /users/auth/google/callback
 router.get('/google/callback',
   passport.authenticate("google-auth"),
   function(req, res) {
@@ -33,9 +31,14 @@ router.get('/google/callback',
 // Github auth
 // =======================
 
+// @desc    Authentication with github
+// @route   GET /users/auth/github
 router.get('/github',
   passport.authenticate('github', { scope: [ 'user:email' ] }));
 
+
+// @desc    Callback authentication github
+// @route   GET /users/auth/github/callback
 router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
@@ -49,6 +52,8 @@ router.get('/github/callback',
 // Gmail auth
 // =======================
 
+// @desc    Gmail service
+// @route   GET /users/auth/gmail
 router.get('/gmail', function(req, res, next) {
   if (!req.query.token)
     res.redirect((process.env.NODE_ENV === 'production'
@@ -59,6 +64,8 @@ router.get('/gmail', function(req, res, next) {
   authenticator(req, res, next);
 });
 
+// @desc    Callback gmail
+// @route   GET /users/auth/gmail/callback
 router.get('/gmail/callback',
   passport.authenticate("gmail-auth"), function (req, res) {
     if (!req.user)
@@ -75,6 +82,8 @@ router.get('/gmail/callback',
 // Twitter auth
 // =======================
 
+// @desc    Twitter service
+// @route   GET /users/auth/twitter
 router.get('/twitter', function(req, res, next) {
     if (!req.query.token)
       res.redirect((process.env.NODE_ENV === 'production'
@@ -85,6 +94,8 @@ router.get('/twitter', function(req, res, next) {
     authenticator(req, res, next);
 });
 
+// @desc    Callback twitter
+// @route   GET /users/auth/twitter/callback
 router.get('/twitter/callback',
   passport.authenticate("twitter-auth"), function (req, res) {
     if (!req.user)
