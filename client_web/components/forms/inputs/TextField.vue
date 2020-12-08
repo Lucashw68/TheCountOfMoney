@@ -10,10 +10,12 @@
     :outlined="config.outlined || true"
     :autocomplete="config.autocomplete || false"
     :required="config.required || false"
-    :counter="config.counter || 0"
+    :counter="config.counter || false"
     :label="$t(config.label) || '...'"
     :type="config.type || 'text'"
-    :rules="config.rules"
+    :placeholder="config.placeholder || null"
+    :color="config.color"
+    :rules="config.rules || []"
   >
     <template #message="{ message }">
       {{ $t(message) }}

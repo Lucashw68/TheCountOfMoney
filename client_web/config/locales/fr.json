@@ -68,8 +68,10 @@
   "profile": {
     "title": "Votre profil",
     "edit": "Editer vos infos",
+    "view": "Consulter vos informations",
     "delete": "Supprimer le compte",
     "account": "compte",
+    "updated-success": "Mise à jour effectuée",
     "button": {
       "back": "Retour au profil",
       "edit": "Éditer le profil",
