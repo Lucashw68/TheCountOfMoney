@@ -68,8 +68,10 @@
   "profile": {
     "title": "Your profile",
     "edit": "Edit your informations",
+    "view": "View your informations",
     "delete": "Delete account",
     "account": "account",
+    "updated-success": "Updated succesfully",
     "button": {
       "back": "Back to profile",
       "edit": "Edit profile",

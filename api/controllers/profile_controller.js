@@ -31,12 +31,24 @@ exports.updateProfile = (req, res, next) => {
   tokenManager.checkToken(req, res, function () {
     User.findById(req.decoded.id, function (err, user) {
       if (!err && user !== undefined && user !== null) {
-        res.status(200);
-        res.send({
-          success: true,
-          message: "User infos retrieved",
-          user: user
-        });
+        user.username = !!req.body.username ? req.body.username : user.username
+        user.email = !!req.body.email ? req.body.email : user.email
+        user.password = !!req.body.password ? req.body.password : user.password
+        user.save(function (err) {
+          if (!err) {
+            res.status(200);
+            res.send({
+              success: true,
+              message: "User updated successfully",
+            });
+          } else {
+            res.status(500);
+            res.send({
+              success: false,
+              message: "User update failed"
+            })
+          }
+        })
       } else {
         res.status(500);
         res.send({

@@ -38,12 +38,11 @@
         />
       </v-col>
 
-      <v-col v-if="selected === 'email'" key="edit" cols="8">
+      <v-col v-if="selected !== null" key="edit-view" cols="8">
         <component
-          :is="'profile-form-card'"
+          :is="selected.component"
           :index="0"
-          :title="$t('profile.edit')"
-          name="- - -"
+          :title="$t(selected.title)"
           :button-text="$t('profile.delete')"
         />
       </v-col>
@@ -58,8 +57,10 @@ export default {
 
   components: {
     ProfileCard: () => import('~/components/views/profile/ProfileCard.vue'),
-    ProfileFormCard: () =>
-      import('~/components/views/profile/ProfileFormCard.vue'),
+    ProfileEditCard: () =>
+      import('~/components/views/profile/ProfileEditCard.vue'),
+    ProfileViewCard: () =>
+      import('~/components/views/profile/ProfileViewCard.vue'),
   },
 
   data: () => ({
@@ -83,7 +84,7 @@ export default {
 
     displayServices() {
       return this.selected !== null
-        ? this.services.filter((item) => item.service === this.selected)
+        ? this.services.filter((item) => item.service === this.selected.service)
         : this.services
     },
 
@@ -147,7 +148,20 @@ export default {
 
     email() {
       console.log('Button email')
-      this.selected = this.selected === null ? 'email' : null
+      this.selected =
+        this.selected === null
+          ? this.$store.state.auth.user.provider === 'local'
+            ? {
+                service: 'email',
+                component: 'profile-edit-card',
+                title: 'profile.edit',
+              }
+            : {
+                service: 'email',
+                component: 'profile-view-card',
+                title: 'profile.view',
+              }
+          : null
     },
     google() {
       console.log('Button Google')

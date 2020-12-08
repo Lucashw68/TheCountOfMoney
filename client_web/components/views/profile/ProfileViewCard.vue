@@ -13,22 +13,28 @@
       <v-row justify="center" align="center" style="height: 256px">
         <v-col :cols="$vuetify.breakpoint.mdAndUp ? 6 : 10">
           <v-row justify="center">
-            <v-text-field shaped outlined filled labe="email"></v-text-field>
+            <span class="overline text-center">
+              Email: {{ this.$store.state.auth.user.email }}
+            </span>
           </v-row>
 
           <v-row justify="center">
-            <v-text-field shaped outlined filled labe="email"></v-text-field>
+            <span class="overline text-center">
+              Username: {{ this.$store.state.auth.user.username }}
+            </span>
           </v-row>
 
           <v-row justify="center">
-            <v-text-field shaped outlined filled labe="email"></v-text-field>
+            <span class="overline text-center">
+              Provider: {{ this.$store.state.auth.user.provider }}
+            </span>
           </v-row>
         </v-col>
       </v-row>
 
       <v-row justify="center" class="my-4">
         <span class="headline profile-username font-weight-light">
-          {{ name }}
+          {{ username || name }}
         </span>
       </v-row>
 
@@ -76,7 +82,21 @@ export default {
     },
   },
 
+  data: () => ({
+    usernameValue: null,
+    emailValue: null,
+    passwordValue: null,
+  }),
+
   computed: {
+    username() {
+      return this.$store.state.auth.user.username
+    },
+
+    email() {
+      return this.$store.state.auth.user.email
+    },
+
     width() {
       return this.$vuetify.breakpoint.mdAndUp ? 'width: 95%;' : 'width: 100%;'
     },
