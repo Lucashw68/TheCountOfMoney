@@ -14,7 +14,7 @@
         v-show="$vuetify.breakpoint.mdAndUp"
         class="display-2 text-center font-weight-light"
       >
-        Your profile
+        {{ $t('profile.title') }}
       </span>
     </v-row>
 
@@ -38,13 +38,12 @@
         />
       </v-col>
 
-      <v-col v-if="selected === 'email'" :key="'mabite'" cols="8">
+      <v-col v-if="selected !== null" key="edit-view" cols="8">
         <component
-          :is="'profile-form-card'"
+          :is="selected.component"
           :index="0"
-          title="Edit your informations"
-          name="- - -"
-          button-text="Delete Account"
+          :title="$t(selected.title)"
+          :button-text="$t('profile.delete')"
         />
       </v-col>
     </transition-group>
@@ -58,8 +57,10 @@ export default {
 
   components: {
     ProfileCard: () => import('~/components/views/profile/ProfileCard.vue'),
-    ProfileFormCard: () =>
-      import('~/components/views/profile/ProfileFormCard.vue'),
+    ProfileEditCard: () =>
+      import('~/components/views/profile/ProfileEditCard.vue'),
+    ProfileViewCard: () =>
+      import('~/components/views/profile/ProfileViewCard.vue'),
   },
 
   data: () => ({
@@ -83,7 +84,7 @@ export default {
 
     displayServices() {
       return this.selected !== null
-        ? this.services.filter((item) => item.service === this.selected)
+        ? this.services.filter((item) => item.service === this.selected.service)
         : this.services
     },
 
@@ -99,7 +100,7 @@ export default {
         {
           service: 'email',
           component: 'profile-card',
-          title: `${this.accountStrategy} account`,
+          title: `${this.accountStrategy} ${this.$i18n.t('profile.account')}`,
           name:
             this.loggedInUser.username || this.loggedInUser.email || '- - -',
           image:
@@ -110,29 +111,29 @@ export default {
           buttonText:
             this.accountStrategy === 'Email'
               ? this.selected !== null
-                ? 'Back to profile'
-                : 'Edit profile'
-              : 'View profile',
+                ? this.$i18n.t('profile.button.back')
+                : this.$i18n.t('profile.button.edit')
+              : this.$i18n.t('profile.button.view'),
           color: '#424242',
         },
         {
           service: 'gmail',
           component: 'profile-card',
-          title: 'Gmail service',
+          title: this.$i18n.t('profile.services.gmail.title'),
           name: '- - -',
           image:
             'https://www.shareicon.net/data/2015/10/03/111547_email_512x512.png',
-          buttonText: 'Associate',
+          buttonText: this.$i18n.t('profile.services.gmail.button'),
           color: '#424242',
         },
         {
-          service: 'github',
+          service: 'twitter',
           component: 'profile-card',
-          title: 'Twitter service',
+          title: this.$i18n.t('profile.services.twitter.title'),
           name: '- - -',
           image:
             'https://culliganrecrute.fr/wp-content/uploads/2018/01/twitter-logo-1-1.png',
-          buttonText: 'Associate',
+          buttonText: this.$i18n.t('profile.services.gmail.button'),
           color: 'transparent',
         },
       ]
@@ -147,7 +148,20 @@ export default {
 
     email() {
       console.log('Button email')
-      this.selected = this.selected === null ? 'email' : null
+      this.selected =
+        this.selected === null
+          ? this.$store.state.auth.user.provider === 'local'
+            ? {
+                service: 'email',
+                component: 'profile-edit-card',
+                title: 'profile.edit',
+              }
+            : {
+                service: 'email',
+                component: 'profile-view-card',
+                title: 'profile.view',
+              }
+          : null
     },
     google() {
       console.log('Button Google')

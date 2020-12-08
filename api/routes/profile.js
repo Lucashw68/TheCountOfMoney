@@ -1,49 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const User = require('../database/user').UserModel;
-const tokenManager = require('../utils/token');
+const profileController = require('../controllers/profile_controller.js');
 
-router.get('/', function (req, res, next) {
-    tokenManager.checkToken(req, res, function () {
-        User.findById(req.decoded.id, function (err, user) {
-            if (!err && user !== undefined && user !== null) {
-                res.status(200);
-                res.send({
-                    success: true,
-                    message: "User infos retrieved",
-                    user: user
-                });
-            } else {
-                res.status(500);
-                res.send({
-                    success: false,
-                    message: "User doesn't exist"
-                })
-            }
-        });
-    });
-});
+// @desc    Get user informations
+// @route   POST /users/profile
+router.get('/', profileController.getProfile);
 
-router.put('/', function (req, res, next) {
-    tokenManager.checkToken(req, res, function () {
-        User.findById(req.decoded.id, function (err, user) {
-            if (!err && user !== undefined && user !== null) {
-                res.status(200);
-                res.send({
-                    success: true,
-                    message: "User infos retrieved",
-                    user: user
-                });
-            } else {
-                res.status(500);
-                res.send({
-                    success: false,
-                    message: "User doesn't exist"
-                })
-            }
-        });
-    });
-});
+// @desc    Update user informations
+// @route   PUT /users/profile
+router.put('/', profileController.updateProfile);
 
 module.exports = router;

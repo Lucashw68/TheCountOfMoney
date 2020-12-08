@@ -14,7 +14,7 @@
             :class="$vuetify.breakpoint.mdAndUp ? 'text-h3' : 'text-h4'"
             style="color: #424242"
           >
-            Keep informed and beat the coins
+            {{ $t('home.title') }}
           </span>
         </v-row>
 
@@ -27,10 +27,15 @@
             class="mx-auto text text-center font-weight-light"
             style="max-width: 568px; color: #424242"
           >
-            TheCountOfMoney is a web platform to follow in realtime the price of
-            your favorites cryptocurrencies and the stay tuned with their news.
+            {{ $t('home.description') }}
           </p>
         </v-row>
+
+        <img
+          style="position: absolute; top: 10px; right: 10px"
+          alt="GitHub tag (latest by date)"
+          src="https://img.shields.io/github/v/tag/Lucashw68/TheCountOfMoney"
+        />
 
         <v-row justify="center" align="center">
           <v-container fluid fill-height>
@@ -46,7 +51,7 @@
                   color="#419CF3"
                 >
                   <v-icon left class="mr-4">mdi-star-three-points</v-icon>
-                  Get Started
+                  {{ $t('home.buttons.get_started') }}
                 </v-btn>
               </v-col>
 
@@ -55,7 +60,11 @@
                   class="font-weight-light"
                   :x-large="$vuetify.breakpoint.mdAndUp"
                   :large="$vuetify.breakpoint.mdAndDown"
-                  :to="isAuthenticated ? '/profile' : '/login'"
+                  :to="
+                    isAuthenticated
+                      ? localePath('profile')
+                      : localePath('login')
+                  "
                   router
                   depressed
                   width="220"
@@ -63,7 +72,11 @@
                   outlined
                 >
                   <v-icon left class="mr-4">mdi-account-circle</v-icon>
-                  {{ isAuthenticated ? 'Profile' : 'Login' }}
+                  {{
+                    isAuthenticated
+                      ? $t('home.buttons.profile')
+                      : $t('home.buttons.login')
+                  }}
                 </v-btn>
               </v-col>
 
@@ -72,14 +85,14 @@
                   class="font-weight-light"
                   :x-large="$vuetify.breakpoint.mdAndUp"
                   :large="$vuetify.breakpoint.mdAndDown"
-                  to="/about"
+                  :to="localePath('about')"
                   router
                   depressed
                   width="220"
                   color="#424242"
                 >
                   <v-icon left class="mr-4">mdi-file-document</v-icon>
-                  Documentation
+                  {{ $t('home.buttons.documentation') }}
                 </v-btn>
               </v-col>
             </v-row>

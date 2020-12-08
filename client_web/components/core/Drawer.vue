@@ -41,7 +41,7 @@
         :key="i"
         active-class="border"
         class="my-4 top-paths"
-        :to="item.path"
+        :to="localePath(item.name)"
         router
         exact
       >
@@ -49,7 +49,7 @@
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title class="paths" v-text="item.name" />
+          <v-list-item-title class="paths" v-text="$t('views.' + item.name)" />
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -61,7 +61,7 @@
         active-class="border"
         class="my-4"
         color="white"
-        :to="item.path"
+        :to="localePath(item.name)"
         router
         exact
       >
@@ -69,7 +69,7 @@
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title class="paths" v-text="item.name" />
+          <v-list-item-title class="paths" v-text="$t('views.' + item.name)" />
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -87,7 +87,9 @@
           <v-icon>mdi-logout</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title class="paths"> Logout </v-list-item-title>
+          <v-list-item-title class="paths">{{
+            $t('logout')
+          }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -141,7 +143,7 @@ export default {
     async logout() {
       try {
         await this.$auth.logout()
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: this.localePath('index') })
       } catch (err) {
         console.log(err)
       }

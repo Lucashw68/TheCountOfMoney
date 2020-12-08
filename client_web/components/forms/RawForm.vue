@@ -1,70 +1,30 @@
 <template>
-  <v-container fluid>
-    <v-row v-if="config.image && config.image.length !== 0" justify="center">
-      <v-avatar size="100">
-        <v-img :src="config.image" />
-      </v-avatar>
-    </v-row>
-    <v-row align="center" align-content="center" justify="center" class="mt-2">
-      <v-col :cols="responsive ? 12 : config.width || 4">
-        <v-card id="form-title" :color="color">
-          <v-card-title id="title"
-            ><v-icon class="pr-4" dark large>{{ config.icon }}</v-icon
-            >{{ $t(config.title) | capitalize }}</v-card-title
-          >
-        </v-card>
+  <v-row justify="center">
+    <transition name="slide-fade">
+      <v-card
+        v-if="config.message.text && config.message.text !== null"
+        id="form-message"
+        :color="config.message.type"
+        flat
+      >
+        <v-card-title id="form-message-text" class="justify-center">
+          {{ config.message.text | capitalize }}
+        </v-card-title>
+      </v-card>
+    </transition>
 
-        <transition name="slide-fade">
-          <v-card
-            v-if="config.message.text && config.message.text !== null"
-            id="form-message"
-            :color="config.message.type"
-            flat
-          >
-            <v-card-title id="form-message-text" class="justify-center">
-              {{ config.message.text | capitalize }}
-            </v-card-title>
-          </v-card>
-        </transition>
-
-        <v-card id="form-content" flat>
-          <v-layout row wrap align-center justify-center class="ml-3 mr-3">
-            <v-flex xs12 mt-4>
-              <v-form ref="form" v-model="valid" lazy-validation>
-                <component
-                  :is="component.name"
-                  v-for="(component, id) in config.components"
-                  :key="id"
-                  class="mx-2"
-                  :model-props="
-                    /^actions/.test(component.name) ? component.model : null
-                  "
-                  :[component.directive]="component.options"
-                  @model="updateModel(component, $event)"
-                >
-                </component>
-
-                <v-layout row wrap align-center>
-                  <v-flex xs12 mt-4>
-                    <v-btn
-                      id="form-button"
-                      x-large
-                      block
-                      dark
-                      :color="color"
-                      @click="validate()"
-                    >
-                      <span>{{ $t(config.validate) || 'Validate' }}</span>
-                    </v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-form>
-            </v-flex>
-          </v-layout>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+    <v-form ref="form" v-model="valid" lazy-validation style="width: 100%">
+      <component
+        :is="component.name"
+        v-for="(component, id) in config.components"
+        :key="id"
+        class="mx-2"
+        :model-props="/^actions/.test(component.name) ? component.model : null"
+        :[component.directive]="component.options"
+        @model="updateModel(component, $event)"
+      />
+    </v-form>
+  </v-row>
 </template>
 
 <script>
@@ -76,7 +36,7 @@ import InputsDate from '@/components/forms/inputs/Date.vue'
 import InputsSelect from '@/components/forms/inputs/Select.vue'
 import { mapState } from 'vuex'
 export default {
-  name: 'Form',
+  name: 'RawForm',
 
   components: {
     InputsTextField,
@@ -104,6 +64,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    triggerValidate: {
+      type: Boolean,
+      default: false,
+    },
+    triggerReset: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data: () => ({
@@ -113,6 +81,25 @@ export default {
 
   computed: {
     ...mapState('app', ['color']),
+  },
+
+  watch: {
+    triggerValidate: {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.validate()
+        }
+      },
+    },
+    triggerReset: {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.reset()
+        }
+      },
+    },
   },
 
   mounted() {
@@ -143,7 +130,9 @@ export default {
 
     validate() {
       if (this.$refs.form.validate()) {
-        this.$emit('validate')
+        this.$emit('validate', true)
+      } else {
+        this.$emit('validate', false)
       }
     },
 

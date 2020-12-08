@@ -34,9 +34,10 @@ export default {
   },
 
   mounted() {
+    this.text = this.$i18n.t('index.loading')
     setTimeout(() => {
-      this.text = 'Completed.'
-      this.$router.push({ path: '/home' })
+      this.text = this.$i18n.t('index.completed')
+      this.$router.push({ path: this.localePath('home') })
     }, 500)
   },
 }

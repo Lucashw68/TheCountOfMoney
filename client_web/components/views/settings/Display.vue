@@ -12,7 +12,7 @@
                 <v-col cols="12">
                   <v-row justify="center" align="center">
                     <span class="display-1 text-center font-weight-light">
-                      Layout
+                      {{ $t('settings.display.layout') }}
                     </span>
                   </v-row>
                 </v-col>
@@ -28,7 +28,13 @@
                   :color="drawer ? 'success' : 'white'"
                   @click.stop="toggleDrawer"
                 >
-                  {{ drawer ? 'Hide Drawer' : 'Display drawer' }}
+                  {{
+                    (drawer
+                      ? $t('settings.display.hide')
+                      : $t('settings.display.display')) +
+                    ' ' +
+                    $t('settings.display.drawer')
+                  }}
                 </v-btn>
               </v-row>
 
@@ -43,10 +49,10 @@
                   color="white"
                   @click.stop="toggleMini"
                 >
-                  <v-icon>{{
+                  <v-icon left>{{
                     mini ? 'mdi-arrow-right' : 'mdi-arrow-left'
                   }}</v-icon>
-                  Drawer
+                  {{ $t('settings.display.drawer') }}
                 </v-btn>
               </v-row>
 
@@ -61,10 +67,10 @@
                   color="white"
                   @click.stop="toggleToolbar"
                 >
-                  <v-icon>{{
+                  <v-icon left>{{
                     toolbar ? 'mdi-arrow-up' : 'mdi-arrow-down'
                   }}</v-icon>
-                  Toolbar
+                  {{ $t('settings.display.toolbar') }}
                 </v-btn>
               </v-row>
             </v-col>
@@ -73,9 +79,9 @@
               <v-row justify="center" align="center">
                 <v-col cols="12">
                   <v-row justify="center" align="center">
-                    <span class="display-1 text-center font-weight-light"
-                      >Background</span
-                    >
+                    <span class="display-1 text-center font-weight-light">{{
+                      $t('settings.display.background')
+                    }}</span>
                   </v-row>
                 </v-col>
                 <v-col
