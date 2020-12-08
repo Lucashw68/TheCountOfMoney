@@ -11,7 +11,7 @@
         <v-row justify="center" align="center">
           <span
             class="text-center font-weight-light mb-4 big-title"
-            :class="$vuetify.breakpoint.mdAndUp ? 'text-h3' : 'text-h4'"
+            :class="$vuetify.breakpoint.mdAndUp ? 'text-h3' : 'text-h4 pa-4'"
             style="color: #424242"
           >
             {{ $t('home.title') }}
