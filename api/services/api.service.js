@@ -20,20 +20,6 @@ coinApi = axios.create({
     }
 });
 
-async function getById(code) {
-    const req = await axios.all([getCoinInfos(code), getCoinHistory(code)])
-        .then(axios.spread((infos, history) => {
-            console.log(infos, history)
-            return [infos, history];
-        }))
-        .catch((err) => {
-            console.log(err);
-            return err;
-        });
-
-    return req;
-}
-
 async function getAll(code) {
     const req = await axios.all([getCoinInfos(code), getCoinHistory(code)])
         .then(axios.spread((infos, history) => {
@@ -52,7 +38,6 @@ async function getAll(code) {
             }
         }))
         .catch((err) => {
-            console.log(err);
             return err;
         });
 
@@ -170,7 +155,20 @@ async function getPricesByCodes (codes) {
     return req;
 }
 
-function getCoinInfos(code) {
+async function getById(code) {
+    const req = await axios.all([getCoinInfos(code), getCoinHistory(code)])
+        .then(axios.spread((infos, history) => {
+            return [infos, history];
+        }))
+        .catch((err) => {
+            return err;
+        });
+
+    return req;
+}
+
+function getCoinInfos(crypto) {
+    const code = crypto.code;
     return nomicsApi('/currencies/ticker', { 
         params: {
             ids: code,
@@ -179,7 +177,8 @@ function getCoinInfos(code) {
     });
 }
 
-function getCoinHistory(code) {
+function getCoinHistory(crypto) {
+    const code = crypto.code;
     let now = moment();
     const startToday = now.startOf('day').format("YYYY-MM-DDTHH:mm:ss")
     return coinApi(`/ohlcv/${code}/USD/history`, { 

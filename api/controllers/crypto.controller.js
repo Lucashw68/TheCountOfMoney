@@ -6,7 +6,6 @@ const apiService = require('../services/api.service');
 // @route   GET /cryptos/all
 exports.getAllCryptos = (req, res) => {
     CryptoModel.find({}, (err, cryptos) => {
-        console.log(err);
         return res.status(200).send(cryptos);
     });
 };
@@ -20,7 +19,6 @@ exports.getAll = (req, res) => {
     let resp = [];
 
     for (let i = 0; i != cryptosCodes.length; i++) {
-        console.log("start loop: i", i, "length", cryptosCodes.length);
         apiService.getAll(cryptosCodes[i]).then(data => {
             if (data) resp.push(data);
             if (i == cryptosCodes.length - 1) return res.status(200).send(resp);
@@ -33,7 +31,6 @@ exports.getAll = (req, res) => {
 exports.getPricesByCodes = (req, res) => {
     const cryptoCode = req.params.cmid;
     CryptoModel.findOne({ code: cryptoCode }, (err, crypto) => {
-        console.log("doc", crypto);
         if (!crypto) {
             return res.status(409).send({ message: "Crypto with the code " + cryptoCode + " doesn't exists." });
         } else {
@@ -60,7 +57,6 @@ exports.getById = (req, res) => {
                 const infos = data[0];
                 const prices = data[1];
                 if (!infos || !prices) {
-                    console.log(infos, prices);
                     return res.status(400).send({ message: "Error connection with api" });
                 } else {
                     const infosData = infos.data[0];
@@ -117,11 +113,9 @@ exports.getHistory = (req, res) => {
         return res.status(400).send({ message: "Period must be one of: daily, hourly or minute"});
 
     apiService.getHistory(code, period).then(history => {
-        // console.log(history);
         if (history.isAxiosError)
             return res.status(400).send({ message: "Error connection with API: " + history.message });
 
-        console.log(history.data.length);z
         return res.status(200).send(history.data);
     });
 };
