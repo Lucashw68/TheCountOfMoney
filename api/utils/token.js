@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/jwt_token.js');
+const User = require('../database/user');
+const UserModel = User.UserModel;
 
 function checkToken(req, res, callback) {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
@@ -28,6 +30,21 @@ function checkToken(req, res, callback) {
     }
 }
 
+function isAdmin(req, res, next) {
+    const userId = req.decoded.id;
+    UserModel.findOne({ _id: userId }, (err, user) => {
+        if (!user)
+            return res.status(404).send({ message: `User with id ${userId} doesn't exists.` });
+
+        if (user.role === "admin") {
+            next();
+            return;
+        }
+        res.status(403).send({ message: "Require Admin Role!" });
+        return;
+    });
+};
+
 function generateToken(id) {
     return jwt.sign({id: id}, config.secret, { expiresIn: '24h' });
 }
@@ -45,4 +62,4 @@ function isExpired(expiration) {
     return (expiration < now.getTime())
 }
 
-module.exports = {checkToken, generateToken, getExpiration, isExpired};
+module.exports = {checkToken, generateToken, getExpiration, isExpired, isAdmin};
