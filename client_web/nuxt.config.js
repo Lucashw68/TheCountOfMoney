@@ -1,10 +1,13 @@
 import colors from 'vuetify/es5/util/colors'
+import pages from './config/locales/pages.json'
+import en from './config/locales/en.json'
+import fr from './config/locales/fr.json'
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - TheCountOfMoney-client-web',
-    title: 'TheCountOfMoney-client-web',
+    titleTemplate: '%s',
+    title: 'TheCountOfMoney',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -14,7 +17,7 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['~/css/main.css'],
+  css: ['~/css/main.css', '~/assets/fonts/fonts.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [],
@@ -28,6 +31,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    // https://i18n.nuxtjs.org/
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -38,11 +42,28 @@ export default {
     '@nuxtjs/pwa',
     // https://auth.nuxtjs.org/
     '@nuxtjs/auth',
+    // https://i18n.nuxtjs.org/
+    'nuxt-i18n',
   ],
+
+  i18n: {
+    strategy: 'prefix_except_default',
+    locales: ['en', 'fr'],
+    defaultLocale: 'en',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: { en, fr },
+    },
+    parsePages: false,
+    pages,
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.API_URL || 'http://localhost:8081/api',
+    baseURL:
+      process.env.NODE_ENV === 'production'
+        ? process.env.API_URL
+        : 'http://localhost:8081/api',
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -71,13 +92,18 @@ export default {
         endpoints: {
           login: { url: '/users/login', method: 'post', propertyName: 'token' },
           user: { url: '/users/profile', method: 'get', propertyName: 'user' },
-          logout: false,
+          logout: { url: '/users/logout', method: 'post' },
         },
       },
-      google: {
-        client_id:
-          '924336356846-arr31781d8d6bejs66spmkelgb6jnol2.apps.googleusercontent.com',
-      },
+    },
+  },
+
+  pwa: {
+    manifest: {
+      name: 'TheCountOfMoney',
+      short_name: 'TCOM',
+      background_color: '#424242',
+      useWebmanifestExtension: false,
     },
   },
 
@@ -92,7 +118,5 @@ export default {
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {
-    analyze: process.env.NODE_ENV !== 'production',
-  },
+  build: {},
 }

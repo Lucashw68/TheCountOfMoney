@@ -1,10 +1,11 @@
 {
   "name": "client_web",
-  "version": "1.0.5",
+  "version": "1.2.1-alpha",
   "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
+    "build-dev": "API_URL=http://localhost:8081/api nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --fix --debug --ext .js,.vue --ignore-path .gitignore .",
@@ -24,7 +25,8 @@
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/pwa": "^3.0.2",
     "core-js": "^3.6.5",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.6",
+    "nuxt-i18n": "^6.15.4"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.2",

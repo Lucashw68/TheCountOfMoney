@@ -5,11 +5,12 @@ export default [
 
   {
     path: '/home',
-    name: 'Home',
+    name: 'home',
     icon: 'mdi-home',
     group: 'top',
     public: true,
     show: true,
+    reduce: true,
     parameters: [],
     role: ['default'],
   },
@@ -20,11 +21,12 @@ export default [
 
   {
     path: '/about',
-    name: 'About',
+    name: 'about',
     icon: 'mdi-information',
     group: 'top',
     public: true,
     show: true,
+    reduce: false,
     parameters: [],
     role: ['default'],
   },
@@ -35,11 +37,12 @@ export default [
 
   {
     path: '/dashboard',
-    name: 'Dashboard',
+    name: 'dashboard',
     icon: 'mdi-monitor-dashboard',
     group: 'top',
-    public: true,
+    public: false,
     show: true,
+    reduce: true,
     parameters: [],
     role: ['default'],
   },
@@ -50,11 +53,12 @@ export default [
 
   {
     path: '/profile',
-    name: 'Profile',
+    name: 'profile',
     icon: 'mdi-account',
     group: 'top',
-    public: true,
+    public: false,
     show: true,
+    reduce: true,
     parameters: [],
     role: ['default'],
   },
@@ -65,11 +69,12 @@ export default [
 
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     icon: 'mdi-account-circle',
     group: 'bot',
     public: true,
     show: true,
+    reduce: true,
     parameters: [],
     role: ['default'],
   },
@@ -80,11 +85,12 @@ export default [
 
   {
     path: '/register',
-    name: 'Register',
+    name: 'register',
     icon: 'mdi-account-plus',
     group: 'bot',
     public: true,
     show: true,
+    reduce: true,
     parameters: [],
     role: ['default'],
   },
@@ -95,11 +101,12 @@ export default [
 
   {
     path: '/settings',
-    name: 'Settings',
+    name: 'settings',
     icon: 'mdi-cog',
     group: 'top',
     public: true,
     show: true,
+    reduce: true,
     parameters: [],
     role: ['default'],
   },

@@ -3,13 +3,14 @@ version: "3"
 services:
 
   client_web:
-    build: "./client_web"
+    build:
+      context: "./client_web"
+      args:
+        API_URL: https://api.thecountofmoney.nuage.best/api
     ports:
       - "3000:3000"
     networks:
       - default
-    environment:
-      - API_URL=http://thecountofmoney.nuage.best:8081/api
     restart: always
     depends_on:
       - api
@@ -27,6 +28,9 @@ services:
     environment:
       - PORT=8081
       - DB_URL=mongodb://mongodb-com
+      - NODE_ENV=production
+      - CLIENT_DEV_URL=http://localhost:3000
+      - CLIENT_PROD_URL=https://thecountofmoney.nuage.best
     depends_on:
       - mongodb-api
     restart: on-failure

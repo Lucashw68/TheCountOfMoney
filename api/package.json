@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.5",
+  "version": "1.2.1-alpha",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www"
@@ -9,10 +9,10 @@
     "axios": "^0.19.2",
     "body-parser": "latest",
     "cookie-parser": "~1.4.4",
+    "cookie-session": "^1.4.0",
     "cors": "latest",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "express-session": "latest",
     "google-auth-library": "^6.1.3",
     "googleapis": "^64.0.0",
     "helmet": "^4.2.0",
@@ -24,6 +24,9 @@
     "passport-google-oauth": "^2.0.0"
   },
   "devDependencies": {
-    "nodemon": "2.0.4"
+    "nodemon": "2.0.4",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth": "^2.0.0",
+    "passport-twitter": "^1.0.4"
   }
 }

@@ -3,6 +3,7 @@
     v-model="drawerStatus"
     :mini-variant="mini"
     style="box-shadow: 0px 0px 10px 1px #121212"
+    disable-route-watcher
     app
   >
     <v-container v-if="!mini" fluid>
@@ -18,13 +19,14 @@
 
     <v-container v-else fluid>
       <v-row justify="center">
-        <v-avatar>
+        <v-avatar :size="mini ? 36 : 48">
           <v-img :src="require('~/static/logo.png')" />
         </v-avatar>
       </v-row>
     </v-container>
 
     <v-divider
+      v-if="!mini"
       style="
         margin-top: 30px;
         width: 70%;
@@ -33,13 +35,13 @@
       "
     />
 
-    <v-list shaped>
+    <v-list :shaped="!mini" :style="mini ? 'margin-top: 20vh;' : ''">
       <v-list-item
         v-for="(item, i) in topPaths"
         :key="i"
         active-class="border"
-        class="my-4 top-items"
-        :to="item.path"
+        class="my-4 top-paths"
+        :to="localePath(item.name)"
         router
         exact
       >
@@ -47,19 +49,19 @@
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title class="paths" v-text="item.name" />
+          <v-list-item-title class="paths" v-text="$t('views.' + item.name)" />
         </v-list-item-content>
       </v-list-item>
     </v-list>
 
-    <v-list v-if="!isAuthenticated" id="bot-paths" shaped>
+    <v-list v-if="!isAuthenticated" class="bot-paths" :shaped="!mini">
       <v-list-item
         v-for="(item, i) in botPaths"
         :key="i"
         active-class="border"
         class="my-4"
         color="white"
-        :to="item.path"
+        :to="localePath(item.name)"
         router
         exact
       >
@@ -67,12 +69,12 @@
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title class="paths" v-text="item.name" />
+          <v-list-item-title class="paths" v-text="$t('views.' + item.name)" />
         </v-list-item-content>
       </v-list-item>
     </v-list>
 
-    <v-list v-else id="bot-paths" shaped>
+    <v-list v-else class="bot-paths" :shaped="!mini">
       <v-list-item
         active-class="border"
         class="my-4"
@@ -85,7 +87,9 @@
           <v-icon>mdi-logout</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title class="paths"> Logout </v-list-item-title>
+          <v-list-item-title class="paths">{{
+            $t('logout')
+          }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -121,7 +125,11 @@ export default {
     },
 
     topPaths() {
-      return Paths.filter((path) => path.group === 'top')
+      return Paths.filter(
+        (path) =>
+          path.group === 'top' &&
+          (!this.isAuthenticated ? path.public === true : true)
+      )
     },
 
     botPaths() {
@@ -135,7 +143,7 @@ export default {
     async logout() {
       try {
         await this.$auth.logout()
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: this.localePath('index') })
       } catch (err) {
         console.log(err)
       }
@@ -145,7 +153,11 @@ export default {
 </script>
 
 <style scoped>
-#bot-paths {
+.top-paths {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.bot-paths {
   bottom: 0;
   position: absolute;
   width: 100%;
@@ -160,9 +172,5 @@ export default {
 }
 .border:hover {
   border: 2px solid cyan;
-}
-.top-items {
-  padding-top: 4px;
-  padding-bottom: 4px;
 }
 </style>

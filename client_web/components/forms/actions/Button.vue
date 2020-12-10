@@ -7,10 +7,15 @@
     :dark="config.dark || false"
     :light="config.light || false"
     :dense="config.dense || false"
-    :shaped="config.shaped || false"
+    :style="
+      config.shaped === 'top'
+        ? 'border-radius: 20px 20px 0px 0px;'
+        : 'border-radius: 0px 0px 20px 20px;'
+    "
     @click="model = true"
   >
-    <span>{{ config.label | capitalize }}</span>
+    <v-icon left class="pr-4">{{ config.icon }}</v-icon>
+    <span>{{ $t(config.label) | capitalize }}</span>
   </v-btn>
 </template>
 
@@ -82,6 +87,5 @@ export default {
   font-weight: 350;
   font-size: 20px;
   opacity: 0.9;
-  border-radius: 20px 20px 0px 0px;
 }
 </style>

@@ -6,24 +6,33 @@
         @update:config="config = $event"
         @validate="login()"
       />
+      <v-btn
+        :to="localePath('register')"
+        outlined
+        depressed
+        text
+        class="font-weight-light"
+        :class="$vuetify.breakpoint.mdAndUp ? 'headline' : 'overline'"
+      >
+        {{ $t('login.no-account') }}
+      </v-btn>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import DynamicForm from '@/components/forms/Form.vue'
 export default {
   name: 'Login',
   auth: 'guest',
 
   components: {
-    DynamicForm,
+    DynamicForm: () => import('~/components/forms/Form.vue'),
   },
 
   data: () => ({
     config: {
-      title: 'Login to your account',
-      validate: 'Login',
+      title: 'login.title',
+      validate: 'login.validate',
       message: {
         type: null,
         text: null,
@@ -47,14 +56,12 @@ export default {
             clearable: true,
             autocomplete: false,
             required: true,
-            label: 'Email',
+            label: 'login.label-email',
             counter: 0,
             rules: [
-              (v) => !!v || 'Email required',
-              (v) => /.+@.+\.+./.test(v) || 'Invalid Email address',
-              (v) =>
-                (v && v.length > 4) ||
-                'Email must be superior than 4 characters',
+              (v) => !!v || 'login.rules.email-required',
+              (v) => /.+@.+\.+./.test(v) || 'login.rules.email-invalid',
+              (v) => (v && v.length > 4) || 'login.rules.email-length',
             ],
           },
         },
@@ -74,13 +81,11 @@ export default {
             autocomplete: false,
             required: true,
             type: 'password',
-            label: 'Password',
+            label: 'login.label-password',
             counter: 0,
             rules: [
-              (v) => !!v || 'Password required',
-              (v) =>
-                (v && v.length > 2) ||
-                'Password must be superior than 2 characters',
+              (v) => !!v || 'login.rules.password-required',
+              (v) => (v && v.length > 7) || 'login.rules.password-length',
             ],
           },
         },
@@ -90,11 +95,26 @@ export default {
           name: 'actions-button',
           directive: 'config',
           options: {
-            label: 'Login with Google',
+            label: 'login.label-google',
             block: true,
             xlarge: true,
             dark: true,
-            shaped: true,
+            shaped: 'top',
+            icon: 'mdi-google',
+          },
+        },
+        {
+          model: false,
+          modelName: 'githubLoginButton',
+          name: 'actions-button',
+          directive: 'config',
+          options: {
+            label: 'login.label-github',
+            block: true,
+            xlarge: true,
+            dark: true,
+            shaped: 'bot',
+            icon: 'mdi-github',
           },
         },
       ],
@@ -104,6 +124,9 @@ export default {
   computed: {
     getButtonStateGoogle() {
       return this.config.components[2].model
+    },
+    getButtonStateGithub() {
+      return this.config.components[3].model
     },
   },
 
@@ -124,6 +147,24 @@ export default {
       },
       deep: true,
     },
+    getButtonStateGithub: {
+      handler(after, before) {
+        if (after) {
+          this.loginGithub()
+          this.config.components[3].model = before
+        }
+      },
+      deep: true,
+    },
+  },
+
+  mounted() {
+    if (
+      Object.keys(this.$route.query).length > 0 &&
+      typeof this.$route.query.token !== 'undefined'
+    ) {
+      this.getSignIn(this.$route.query.token)
+    }
   },
 
   methods: {
@@ -136,8 +177,8 @@ export default {
           },
         })
         this.config.message.type = 'success'
-        this.config.message.text = 'Successfully connected'
-        this.$router.push({ path: '/dashboard' })
+        this.config.message.text = this.$i18n.t('login.success')
+        this.$router.push({ path: this.localePath('dashboard') })
       } catch (err) {
         this.config.message.type = 'error'
         this.config.message.text =
@@ -145,11 +186,40 @@ export default {
       }
     },
 
-    async loginGoogle() {
+    loginGoogle() {
       try {
-        await this.$auth.loginWith('google')
+        location.replace(this.$axios.defaults.baseURL + '/users/auth/google')
         this.config.message.type = 'success'
-        this.config.message.text = 'Redirecting to Google'
+        this.config.message.text = this.$i18n.t('login.redirect-google')
+      } catch (err) {
+        this.config.message.type = 'error'
+        this.config.message.text = err
+      }
+    },
+
+    loginGithub() {
+      try {
+        location.replace(this.$axios.defaults.baseURL + '/users/auth/github')
+        this.config.message.type = 'success'
+        this.config.message.text = this.$i18n.t('login.redirect-github')
+      } catch (err) {
+        this.config.message.type = 'error'
+        this.config.message.text = err
+      }
+    },
+
+    async getSignIn(token) {
+      try {
+        const res = await this.$axios.$get('/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        this.$auth.setUser(res.user)
+        this.$auth.setStrategy('local')
+        this.config.message.type = 'success'
+        this.config.message.text = this.$i18n.t('login.success')
+        this.$router.push({ path: this.localePath('index') })
       } catch (err) {
         this.config.message.type = 'error'
         this.config.message.text = err

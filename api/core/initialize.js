@@ -1,7 +1,8 @@
-const expressSession = require('express-session');
+const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const express = require('express');
+const alerts = require('./alerts');
 const logger = require('morgan');
 const helmet = require('helmet');
 const path = require('path');
@@ -10,6 +11,15 @@ const cors = require('cors');
 const {allowedOrigins} = require('../config/origins');
 
 module.exports = function(app) {
+
+  alerts(function (err) {
+    if (err) {
+      console.error('Launching alert service failed');
+      process.exit(1);
+    } else
+      console.log('Alert service is running');
+  });
+
   app.disable('x-powered-by');
 
   app.use(helmet());
@@ -34,12 +44,10 @@ module.exports = function(app) {
 
   app.use(cookieParser());
 
-  app.use(express.static(path.join(__dirname, 'public')));
-
-  app.use(expressSession({
-      resave: false,
-      saveUninitialized: true,
-      secret: 'the-count-of-money-secret'
+  app.use(cookieSession({
+    name: 'the-count-of-money-session',
+    keys: ['the-count-of-money-secret'],
+    maxAge: 24 * 60 * 60 * 1000
   }));
 
   app.use(passport.initialize());

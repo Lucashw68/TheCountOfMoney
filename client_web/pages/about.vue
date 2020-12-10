@@ -1,8 +1,8 @@
 <template>
-  <v-container id="home" fluid fill-height>
+  <v-container id="about" fluid fill-height>
     <v-row justify="center" align="center">
       <span class="display-2 text-center font-weight-light">
-        Welcome to TheCountOfMoney
+        {{ about.title }}
       </span>
     </v-row>
   </v-container>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'Home',
+  name: 'About',
   auth: false,
 
   data: () => ({}),
@@ -18,6 +18,6 @@ export default {
 </script>
 
 <style scoped>
-#home {
+#about {
 }
 </style>

@@ -11,19 +11,19 @@
 </template>
 
 <script>
-import DynamicForm from '@/components/forms/Form.vue'
+import { mapMutations } from 'vuex'
 export default {
   name: 'Register',
   auth: 'guest',
 
   components: {
-    DynamicForm,
+    DynamicForm: () => import('~/components/forms/Form.vue'),
   },
 
   data: () => ({
     config: {
-      title: 'Create your account',
-      validate: 'Register',
+      title: 'register.title',
+      validate: 'register.validate',
       message: {
         type: null,
         text: null,
@@ -47,13 +47,11 @@ export default {
             clearable: true,
             autocomplete: false,
             required: true,
-            label: 'Username',
+            label: 'register.label-username',
             counter: 0,
             rules: [
-              (v) => !!v || 'Username required',
-              (v) =>
-                (v && v.length > 4) ||
-                'Username must be superior than 4 characters',
+              (v) => !!v || 'register.rules.username-required',
+              (v) => (v && v.length > 2) || 'register.rules.username-length',
             ],
           },
         },
@@ -72,14 +70,12 @@ export default {
             clearable: true,
             autocomplete: false,
             required: true,
-            label: 'Email',
+            label: 'register.label-email',
             counter: 0,
             rules: [
-              (v) => !!v || 'Email required',
-              (v) => /.+@.+\.+./.test(v) || 'Invalid Email address',
-              (v) =>
-                (v && v.length > 4) ||
-                'Email must be superior than 4 characters',
+              (v) => !!v || 'register.rules.email-required',
+              (v) => /.+@.+\.+./.test(v) || 'register.rules.email-invalid',
+              (v) => (v && v.length > 4) || 'register.rules.email-length',
             ],
           },
         },
@@ -99,13 +95,11 @@ export default {
             autocomplete: false,
             required: true,
             type: 'password',
-            label: 'Password',
+            label: 'register.label-password',
             counter: 0,
             rules: [
-              (v) => !!v || 'Password required',
-              (v) =>
-                (v && v.length > 7) ||
-                'Password must be superior than 7 characters',
+              (v) => !!v || 'register.rules.password-required',
+              (v) => (v && v.length > 7) || 'register.rules.password-length',
             ],
           },
         },
@@ -114,6 +108,8 @@ export default {
   }),
 
   methods: {
+    ...mapMutations('app', ['setDrawer']),
+
     async register() {
       try {
         await this.$axios.post('/users/register', {
@@ -128,7 +124,10 @@ export default {
             password: this.getModel('password'),
           },
         })
-        this.$router.push('/')
+        this.config.message.type = 'success'
+        this.config.message.text = this.$i18n.t('register.success')
+        this.$router.push({ path: this.localePath('index') })
+        this.setDrawer(true)
       } catch (err) {
         this.config.message.type = 'error'
         this.config.message.text =
