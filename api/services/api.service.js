@@ -20,13 +20,14 @@ coinApi = axios.create({
     }
 });
 
-async function getAll(code) {
-    const req = await axios.all([getCoinInfos(code), getCoinHistory(code)])
+async function getAll(codeParam) {
+    const crypto = { code: codeParam };
+    const req = await axios.all([getCoinInfos(crypto), getCoinHistory(crypto)])
         .then(axios.spread((infos, history) => {
             let infoData = infos.data[0];
             let historyData = history.data[0];
             if (infoData && historyData) {
-                return {
+                let resp = {
                     "cmid": infoData.symbol,
                     "name": infoData.name,
                     "currentPrice": parseInt(infoData.price, 10),
@@ -35,6 +36,7 @@ async function getAll(code) {
                     "highestDay": historyData.price_high,
                     "image": infoData.logo_url
                 };
+                return resp;
             }
         }))
         .catch((err) => {

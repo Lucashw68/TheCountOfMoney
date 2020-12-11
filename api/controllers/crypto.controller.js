@@ -14,14 +14,18 @@ exports.getAllCryptos = (req, res) => {
 // @route   GET /cryptos?cmids=BTC,ETH,RBX
 exports.getAll = (req, res) => {
     const cryptosParam = req.query.cmids;
-    if (!cryptosParam) return res.status(404).send({message: "Crypto with the code " + cryptosParam + " doesn't exists"});
+    if (!cryptosParam) return res.status(404).send({ message: "Crypto with the code " + cryptosParam + " doesn't exists" });
     const cryptosCodes = cryptosParam.split(',');
     let resp = [];
 
-    for (let i = 0; i != cryptosCodes.length; i++) {
+    for (let i = 0; i < cryptosCodes.length; i++) {
         apiService.getAll(cryptosCodes[i]).then(data => {
             if (data) resp.push(data);
-            if (i == cryptosCodes.length - 1) return res.status(200).send(resp);
+            if (i === cryptosCodes.length - 1) {
+                setTimeout(() => {
+                    return res.status(200).send(resp)
+                }, 100);
+            }
         });
     }
 };
@@ -108,9 +112,9 @@ exports.create = (req, res) => {
 exports.getHistory = (req, res) => {
     const code = req.params.cmid;
     const period = req.params.period;
-    if (!code || !period) return res.status(400).send({ message: "Cmid and period are needed"});
-    if (period !== "daily" && period !== "hourly" && period !== "minute") 
-        return res.status(400).send({ message: "Period must be one of: daily, hourly or minute"});
+    if (!code || !period) return res.status(400).send({ message: "Cmid and period are needed" });
+    if (period !== "daily" && period !== "hourly" && period !== "minute")
+        return res.status(400).send({ message: "Period must be one of: daily, hourly or minute" });
 
     apiService.getHistory(code, period).then(history => {
         if (history.isAxiosError)
