@@ -37,7 +37,7 @@
                   :key="id"
                   class="mx-2"
                   :model-props="
-                    /^actions/.test(component.name) ? component.model : null
+                    /^actions/.test(component.name) ? null : component.model
                   "
                   :[component.directive]="component.options"
                   @model="updateModel(component, $event)"
@@ -85,6 +85,8 @@ export default {
     ActionsButton,
     InputsDate,
     InputsSelect,
+    InputSlider: () => import('~/components/forms/inputs/Slider.vue'),
+    InputCombobox: () => import('~/components/forms/inputs/Combobox.vue'),
   },
 
   filters: {
