@@ -6,10 +6,12 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '8081');
 app.set('port', port);
 
 let server = http.createServer(app)
+
+console.log(`Server listening on port ${port}`);
 
 server.listen(port);
 server.on('error', onError);
