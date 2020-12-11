@@ -40,20 +40,31 @@
             </v-col>
 
             <v-col
-              v-for="(item, id) in buttons"
+              v-for="(item, id) in displayButtons"
               :key="id"
               :cols="$vuetify.breakpoint.mdAndDown ? 12 / buttons.length : 1"
             >
               <v-row justify="center">
-                <v-btn
-                  :to="localePath(item.to)"
-                  fab
-                  :x-large="$vuetify.breakpoint.mdAndUp"
-                  :large="$vuetify.breakpoint.mdAndDown"
-                  color="#424242"
-                >
-                  <v-icon>{{ item.icon }}</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      fab
+                      v-bind="attrs"
+                      color="#424242"
+                      :to="!!item.to ? localePath(item.to) : undefined"
+                      :x-large="$vuetify.breakpoint.mdAndUp"
+                      :large="$vuetify.breakpoint.mdAndDown"
+                      :disabled="item.disabled"
+                      v-on="on"
+                      @click="
+                        !!item.click ? handleFunction(item.click) : undefined
+                      "
+                    >
+                      <v-icon>{{ item.icon }}</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ item.name }}</span>
+                </v-tooltip>
               </v-row>
             </v-col>
           </v-row>
@@ -123,6 +134,21 @@
             </v-row>
           </client-only>
         </v-container>
+        <crypto-settings
+          v-if="isAuthenticated"
+          :active="cryptoSettings"
+          @update:active="cryptoSettings = false"
+        />
+        <article-settings
+          v-if="isAuthenticated"
+          :active="articleSettings"
+          @update:active="articleSettings = false"
+        />
+        <app-settings
+          v-if="authorized('admin')"
+          :active="appSettings"
+          @update:active="appSettings = false"
+        />
       </span>
     </transition>
   </v-container>
@@ -131,28 +157,37 @@
 <script>
 export default {
   name: 'Dashboard',
-  auth: true,
+  auth: false,
   layout: 'view',
 
   components: {
     CryptoCard: () => import('~/components/views/dashboard/CryptoCard.vue'),
     NewsCard: () => import('~/components/views/dashboard/NewsCard.vue'),
+    CryptoSettings: () =>
+      import('~/components/views/dashboard/settings/CryptoSettings.vue'),
+    ArticleSettings: () =>
+      import('~/components/views/dashboard/settings/ArticleSettings.vue'),
+    AppSettings: () =>
+      import('~/components/views/dashboard/settings/AppSettings.vue'),
   },
 
   data: () => ({
     intro: true,
+    appSettings: false,
+    cryptoSettings: false,
+    articleSettings: false,
     cryptos: [
       {
         name: 'Bitcoin',
         image:
           'https://vangogh.teespring.com/v3/image/HlZAvJt6vXzedAp4hghP0XDzHtY/480/560.jpg',
-        value: '15000',
+        value: 15000,
       },
       {
         name: 'Ethereum',
         image:
           'https://btcdirect.eu/media/838/download/ethereum-classic-1.svg?v=3',
-        value: '6000',
+        value: 6000,
       },
     ],
 
@@ -180,24 +215,56 @@ export default {
           name: this.$i18n.t('dashboard.button.home.name'),
           to: 'home',
           icon: 'mdi-arrow-left',
+          disabled: false,
+          access: ['guest', 'user', 'admin'],
         },
         {
           name: this.$i18n.t('dashboard.button.crypto-settings.name'),
-          to: 'dashboard',
           icon: 'mdi-bitcoin',
+          click: 'dialogUserPreferences',
+          disabled: false,
+          access: ['user', 'admin'],
         },
         {
           name: this.$i18n.t('dashboard.button.article-settings.name'),
-          to: 'dashboard',
           icon: 'mdi-newspaper-variant',
+          click: 'dialogArticlePreferences',
+          disabled: false,
+          access: ['user', 'admin'],
         },
         {
           name: this.$i18n.t('dashboard.button.alerts.name'),
-          to: 'dashboard',
           icon: 'mdi-bell-alert',
+          disabled: true,
+          access: ['user', 'admin'],
+        },
+        {
+          name: this.$i18n.t('dashboard.button.app-settings.name'),
+          icon: 'mdi-cog',
+          click: 'dialogAppPreferences',
+          disabled: false,
+          access: ['admin'],
         },
       ]
       return buttons
+    },
+
+    displayButtons() {
+      return this.buttons.filter(
+        (item) =>
+          item.access.includes('guest') ||
+          item.access.includes(
+            this.isAuthenticated ? this.loggedInUser.role : 'guest'
+          )
+      )
+    },
+
+    isAuthenticated() {
+      return this.$store.state.auth.loggedIn
+    },
+
+    loggedInUser() {
+      return this.$store.state.auth.user
     },
   },
 
@@ -213,6 +280,26 @@ export default {
         return window.innerHeight * (percentage / 100)
       }
     },
+
+    handleFunction(functionName) {
+      this[functionName]()
+    },
+
+    authorized(role) {
+      return this.isAuthenticated ? this.loggedInUser.role === role : false
+    },
+
+    dialogUserPreferences() {
+      this.cryptoSettings = true
+    },
+
+    dialogArticlePreferences() {
+      this.articleSettings = true
+    },
+
+    dialogAppPreferences() {
+      this.appSettings = true
+    },
   },
 }
 </script>
@@ -222,5 +309,8 @@ export default {
 }
 .hover-card {
   cursor: pointer;
+}
+.theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+  background-color: #a0a0a0 !important;
 }
 </style>

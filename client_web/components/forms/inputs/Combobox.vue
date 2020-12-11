@@ -1,6 +1,6 @@
 <template>
   <span>
-    <v-select
+    <v-combobox
       v-model="model"
       class="px-2"
       hide-details
@@ -14,22 +14,16 @@
       :label="$t(config.label) || ''"
       :dense="config.dense || false"
       :items="config.items || []"
+      :small-chips="config.smallchips || false"
+      :deletable-chips="config.deletable || false"
     >
-      <template v-if="config.multiple" v-slot:selection="{ item, index }">
-        <v-chip v-if="index === 0">
-          <span>{{ item }}</span>
-        </v-chip>
-        <span v-if="index === 1" class="grey--text caption">
-          (+{{ model.length - 1 }} others)
-        </span>
-      </template>
-    </v-select>
+    </v-combobox>
   </span>
 </template>
 
 <script>
 export default {
-  name: 'Select',
+  name: 'Combobox',
 
   inheritAttrs: false,
 

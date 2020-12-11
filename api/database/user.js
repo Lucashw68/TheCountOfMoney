@@ -3,6 +3,7 @@ const GoogleSchema = require('./services/google').GoogleSchema;
 const GithubSchema = require('./services/github').GithubSchema;
 const TwitterSchema = require('./services/twitter').TwitterSchema;
 const AlertSchema = require('./alerts').AlertSchema;
+const PreferenceSchema = require('./preferences/user').UserPreferenceSchema;
 
 let UserSchema = new mongoose.Schema({
     email: String,
@@ -18,8 +19,10 @@ let UserSchema = new mongoose.Schema({
       enum: ['user', 'admin'],
       default: 'user'
     },
-    alerts: [AlertSchema]
+    alerts: [AlertSchema],
+    preferences: PreferenceSchema
 });
+
 let UserModel = mongoose.model("User", UserSchema);
 
 exports.UserSchema = UserSchema;

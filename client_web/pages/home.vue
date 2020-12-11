@@ -49,6 +49,7 @@
                   depressed
                   width="220"
                   color="#419CF3"
+                  :to="localePath('dashboard')"
                 >
                   <v-icon left class="mr-4">mdi-star-three-points</v-icon>
                   {{ $t('home.buttons.get_started') }}
