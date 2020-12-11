@@ -3,7 +3,7 @@ const tokenManager = require('../utils/token');
 const User = require('../database/user').UserModel;
 
 // @desc    Get user informations
-// @route   POST /users/profile
+// @route   GET /users/profile
 exports.getProfile = (req, res, next) => {
   tokenManager.checkToken(req, res, function () {
     User.findById(req.decoded.id, function (err, user) {
@@ -34,6 +34,7 @@ exports.updateProfile = (req, res, next) => {
         user.username = !!req.body.username ? req.body.username : user.username
         user.email = !!req.body.email ? req.body.email : user.email
         user.password = !!req.body.password ? req.body.password : user.password
+        user.preferences = !!req.body.preferences ? req.body.preferences : user.preferences
         user.save(function (err) {
           if (!err) {
             res.status(200);

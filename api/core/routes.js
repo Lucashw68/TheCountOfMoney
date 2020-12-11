@@ -3,6 +3,7 @@ const loginRouter = require("../routes/login");
 const logoutRouter = require("../routes/logout");
 const authRouter = require("../routes/auth");
 const profileRouter = require("../routes/profile");
+const preferencesRouter = require("../routes/preferences");
 
 const cryptosRouter = require("../routes/cryptos");
 
@@ -26,4 +27,7 @@ module.exports = function(app) {
 
   // Articles
   app.use("/api/articles", articlesRouter)
+
+  // App preferences
+  app.use("/api/app", preferencesRouter)
 }

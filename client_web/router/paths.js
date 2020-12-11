@@ -40,7 +40,7 @@ export default [
     name: 'dashboard',
     icon: 'mdi-monitor-dashboard',
     group: 'top',
-    public: false,
+    public: true,
     show: true,
     reduce: true,
     parameters: [],

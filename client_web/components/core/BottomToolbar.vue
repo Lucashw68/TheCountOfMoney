@@ -19,11 +19,10 @@ export default {
   data: () => ({}),
 
   computed: {
-
     isAuthenticated() {
       return this.$auth.loggedIn
     },
-    
+
     publicPaths() {
       return Paths.filter(
         (path) =>

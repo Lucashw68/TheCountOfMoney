@@ -14,6 +14,10 @@
     "completed": "Complet."
   },
 
+  "dialog": {
+    "close": "Fermer"
+  },
+
   "home": {
     "title": "Restez informés, dominez le marché",
     "description": "TheCountOfMoney est une plateforme web qui vous permet de suivre le cours de vos cryptomonnaies favorites et de leurs actualités en temps réel.",
@@ -98,13 +102,33 @@
         "name": "Accueil"
       },
       "crypto-settings": {
-        "name": "Paramètres cryptos"
+        "name": "Paramètres cryptos",
+        "title": "Mettre à jour les préferences",
+        "validate": "Modifier",
+        "favoriteCryptos": "Choisissez vos cryptos",
+        "currency": "Choisissez votre devise"
       },
       "article-settings": {
-        "name": "Paramètres articles"
+        "name": "Paramètres articles",
+        "title": "Mettre à jour vos préferences pour les news",
+        "validate": "Modifier",
+        "keywords": "Entrer des mots-clés pour les news"
       },
       "alerts": {
         "name": "Vos alertes"
+      },
+      "app-settings": {
+        "name": "Préferences globales",
+        "title": "Mettre à jour les préferences",
+        "validate": "Modifier",
+        "n": {
+          "title": "N - Nombre de cryptos à afficher"
+        },
+        "k": {
+          "title": "K - Nombre de derniers articles"
+        },
+        "allowedCryptos": "Choisir les cryptos disponibles",
+        "rssFeeds": "Sélectionner les sources RSS"
       }
     }
   },

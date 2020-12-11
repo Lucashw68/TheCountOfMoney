@@ -14,6 +14,10 @@
     "completed": "Completed."
   },
 
+  "dialog": {
+    "close": "Close"
+  },
+
   "home": {
     "title": "Keep informed and beat the coins",
     "description": "TheCountOfMoney is a web platform to follow in realtime the price of your favorites cryptocurrencies and the stay tuned with their news.",
@@ -98,13 +102,33 @@
         "name": "Home"
       },
       "crypto-settings": {
-        "name": "Currencies settings"
+        "name": "Currencies settings",
+        "title": "Update preferences",
+        "validate": "Update",
+        "favoriteCryptos": "Select your favorite cryptocurrencies",
+        "currency": "Select your currency"
       },
       "article-settings": {
-        "name": "Articles settings"
+        "name": "Articles settings",
+        "title": "Update articles preferences",
+        "validate": "Update",
+        "keywords": "Enter keywords for the news feed"
       },
       "alerts": {
         "name": "Alerts"
+      },
+      "app-settings": {
+        "name": "App preferences",
+        "title": "Update app preferences",
+        "validate": "Update",
+        "n": {
+          "title": "N - Number of cryptos to display"
+        },
+        "k": {
+          "title": "K - Number of latest articles"
+        },
+        "allowedCryptos": "Select allowed cryptocurrencies",
+        "rssFeeds": "Select list of sources (RSS feed)"
       }
     }
   },
