@@ -120,11 +120,15 @@ export default {
           service: 'gmail',
           component: 'profile-card',
           title: this.$i18n.t('profile.services.gmail.title'),
-          name: '- - -',
+          name: this.isServiceAssociated('gmail')
+            ? this.loggedInUser.gmail.email
+            : '- - -',
           image:
             'https://www.shareicon.net/data/2015/10/03/111547_email_512x512.png',
-          buttonText: this.$i18n.t('profile.services.gmail.button'),
-          color: '#424242',
+          buttonText: this.isServiceAssociated('gmail')
+            ? this.$i18n.t('profile.services.gmail.button-disassociate')
+            : this.$i18n.t('profile.services.gmail.button-associate'),
+          color: this.isServiceAssociated('gmail') ? 'red' : '#424242',
         },
         {
           service: 'twitter',
@@ -133,7 +137,7 @@ export default {
           name: '- - -',
           image:
             'https://culliganrecrute.fr/wp-content/uploads/2018/01/twitter-logo-1-1.png',
-          buttonText: this.$i18n.t('profile.services.gmail.button'),
+          buttonText: this.$i18n.t('profile.services.twitter.button'),
           color: 'transparent',
         },
       ]
@@ -141,9 +145,30 @@ export default {
     },
   },
 
+  mounted() {
+    if (
+      Object.keys(this.$route.query).length > 0 &&
+      typeof this.$route.query.service !== 'undefined' &&
+      this.$route.query.success === 'true'
+    ) {
+      this.addService(this.$route.query.service)
+    }
+  },
+
   methods: {
     handleFunction(functionName) {
       this[functionName]()
+    },
+
+    addService(service) {
+      console.log(service)
+      console.log(this.loggedInUser)
+      this.$router.push({ path: this.localePath('profile') })
+    },
+
+    isServiceAssociated(service) {
+      console.log(!!this.loggedInUser[service])
+      return !!this.loggedInUser[service]
     },
 
     email() {
@@ -163,12 +188,17 @@ export default {
               }
           : null
     },
-    google() {
-      console.log('Button Google')
-      location.replace('http://localhost:8081/api/users/auth/google')
+    gmail() {
+      console.log('Button gmail')
+      const token = this.$auth.getToken('local')
+      location.replace(
+        'http://localhost:8081/api/users/auth/gmail' +
+          '?token=' +
+          token.slice(7)
+      )
     },
-    github() {
-      console.log('Button Github')
+    twitter() {
+      console.log('Button twitter')
     },
   },
 }
