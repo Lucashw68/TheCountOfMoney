@@ -84,11 +84,12 @@
     "services": {
       "gmail": {
         "title": "Service Gmail",
-        "button": "Associer"
+        "button-associate": "Associer",
+        "button-disassociate": "Désassocier"
       },
       "twitter": {
         "title": "Service Twitter",
-        "button": "Associer"
+        "button": "Coming soon"
       }
     }
   },
