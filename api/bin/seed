@@ -3,13 +3,16 @@
 const seeder = require('mongoose-seed');
 const seeds = require('../config/seeds');
 
+seeder.setLogOutput(false)
+
 seeder.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, function() {
   seeder.loadModels([
     "database/user.js",
-    "database/preferences/app.js"
+    "database/preferences/app.js",
+    "database/article.js"
   ]);
 
-  seeder.clearModels(["User", "AppPreferences"], function() {
+  seeder.clearModels(["User", "AppPreferences", "Article"], function() {
     seeder.populateModels(seeds, function() {
       seeder.disconnect();
     });

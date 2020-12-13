@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const user = require('../database/user');
-const tokenManager = require('../utils/token');
+const articleController = require('../controllers/article_controller.js');
 
-router.post('/', function (req, res, next) {
-  res.status(500);
-  res.send({
-    success: false,
-    message: "Not implemented"
-  });
-});
+
+// @desc    Get articles
+// @route   GET /articles[?params=value1&...]
+router.get('/', articleController.getArticles);
+
+// @desc    Get article by id
+// @route   GET /articles/{id}
+router.get('/:id', articleController.getArticle);
 
 module.exports = router;

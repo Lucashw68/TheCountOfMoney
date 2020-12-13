@@ -192,7 +192,7 @@ export default {
       console.log('Button gmail')
       const token = this.$auth.getToken('local')
       location.replace(
-        'http://localhost:8081/api/users/auth/gmail' +
+        `${this.$axios.defaults.baseURL}/users/auth/gmail` +
           '?token=' +
           token.slice(7)
       )

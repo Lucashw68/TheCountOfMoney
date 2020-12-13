@@ -4,7 +4,7 @@
       <v-row justify="center">
         <v-avatar size="256">
           <v-img
-            src="https://p.kindpng.com/picc/s/716-7160710_game-dino-dinossauro-google-googlechrome-chrome-t-rex.png"
+            src="https://64.media.tumblr.com/e414a762d3a1515ce8454d32c2dec579/tumblr_ogi47qqlfI1utgp6co1_500.gifv"
           />
         </v-avatar>
       </v-row>

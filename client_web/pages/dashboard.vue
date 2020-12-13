@@ -117,13 +117,17 @@
                       >{{ $t('dashboard.newsfeed') }}</v-card-title
                     >
 
-                    <v-container fluid>
+                    <v-container
+                      fluid
+                      :style="`overflow-y: scroll; height: ${percent(60)}px;`"
+                    >
                       <news-card
                         v-for="(item, id) in news"
                         :key="id"
-                        :image="item.image"
+                        :article-id="item._id"
+                        :image="item.imageFeed"
                         :title="item.title"
-                        :text="item.text"
+                        :text="item.summary"
                         class="hover-card"
                         :color="id % 2 === 0 ? '#A0A0A0' : '#636363'"
                       />
@@ -191,21 +195,7 @@ export default {
       },
     ],
 
-    news: [
-      {
-        title: 'Bitcoin news',
-        text: 'Increase of the bitcoin announced... blabla',
-        image:
-          'https://vangogh.teespring.com/v3/image/HlZAvJt6vXzedAp4hghP0XDzHtY/480/560.jpg',
-      },
-      {
-        title: 'Ethreum news',
-        text:
-          'The first version of Ethereum 2.0 (ETH 2.0) is now live. The team that designed it called its launch a success. The price of ETH has meanwhile fallen since the announcement.',
-        image:
-          'https://vangogh.teespring.com/v3/image/HlZAvJt6vXzedAp4hghP0XDzHtY/480/560.jpg',
-      },
-    ],
+    news: [],
   }),
 
   computed: {
@@ -269,12 +259,24 @@ export default {
   },
 
   mounted() {
+    this.getArticles()
     setTimeout(() => {
       this.intro = false
     }, 1000)
   },
 
   methods: {
+    async getArticles() {
+      try {
+        const res = await this.$axios.get('/articles' + '?length=5')
+        res.data.articles.forEach((article) => {
+          this.news.push(article)
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
     percent(percentage) {
       if (process.client) {
         return window.innerHeight * (percentage / 100)
