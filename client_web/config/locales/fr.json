@@ -131,6 +131,9 @@
         "allowedCryptos": "Choisir les cryptos disponibles",
         "rssFeeds": "Sélectionner les sources RSS"
       }
+    },
+    "article": {
+      "back": "Retour"
     }
   },
 

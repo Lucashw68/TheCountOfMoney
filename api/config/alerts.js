@@ -1,5 +1,5 @@
 module.exports = {
-  refreshTime: 10000,
+  refreshTime: 600000,
 
   // ===========================================================================
   // Alerts by services

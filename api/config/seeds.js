@@ -95,7 +95,6 @@ module.exports = [
           "XTZ"
         ],
         "feeds_list": [
-          "https://cointelegraph.com/rss",
           "https://www.coindesk.com/feed",
           "https://news.bitcoin.com/feed/",
           "https://minergate.com/blog/feed/",

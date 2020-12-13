@@ -131,6 +131,9 @@
         "allowedCryptos": "Select allowed cryptocurrencies",
         "rssFeeds": "Select list of sources (RSS feed)"
       }
+    },
+    "article": {
+      "back": "Back"
     }
   },
 

@@ -31,14 +31,14 @@ function launch(callback)
       if (user.alerts.length > 0)
         empty = false;
 
-    if (users.length > 0) {
-      console.log('Number of user(s): [' + users.length + ']')
-      for (let user of users) {
-        console.log('User: ', user.email)
-      }
-    } else {
-      console.log('No users')
-    }
+    // if (users.length > 0) {
+    //   console.log('Number of user(s): [' + users.length + ']')
+    //   for (let user of users) {
+    //     console.log('User: ', user.email)
+    //   }
+    // } else {
+    //   console.log('No users')
+    // }
 
     if (empty)
       callback(false)
