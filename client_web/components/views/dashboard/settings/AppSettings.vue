@@ -110,7 +110,7 @@ export default {
   computed: {
     n: {
       get() {
-        return this.config.components[0].model
+        return this.getModel('n')
       },
       set(val) {
         this.config.components[0].model = val
@@ -118,7 +118,7 @@ export default {
     },
     k: {
       get() {
-        return this.config.components[1].model
+        return this.getModel('k')
       },
       set(val) {
         this.config.components[1].model = val
@@ -153,11 +153,7 @@ export default {
   methods: {
     async getPreferences() {
       try {
-        const res = await this.$axios.$get('/app/preferences', {
-          headers: {
-            Authorization: `${this.$auth.getToken('local')}`,
-          },
-        })
+        const res = await this.$axios.$get('/app/preferences')
         this.n = res.preferences.n
         this.k = res.preferences.k
         this.cryptos_list = res.preferences.cryptos_list
@@ -172,8 +168,8 @@ export default {
         await this.$axios.$put(
           '/app/preferences',
           {
-            k: this.getModel('k'),
-            n: this.getModel('n'),
+            k: this.k,
+            n: this.n,
             cryptos_list: this.getModel('allowedCryptos'),
             feeds_list: this.getModel('rssFeeds'),
           },
@@ -184,6 +180,7 @@ export default {
           }
         )
         this.getPreferences()
+        this.$emit('change')
       } catch (err) {
         console.log(err)
       }

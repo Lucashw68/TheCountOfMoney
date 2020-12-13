@@ -84,11 +84,12 @@
     "services": {
       "gmail": {
         "title": "Gmail service",
-        "button": "Associate"
+        "button-associate": "Associate",
+        "button-disassociate": "Disassociate"
       },
       "twitter": {
         "title": "Twitter service",
-        "button": "Associate"
+        "button": "Coming soon"
       }
     }
   },
@@ -130,6 +131,9 @@
         "allowedCryptos": "Select allowed cryptocurrencies",
         "rssFeeds": "Select list of sources (RSS feed)"
       }
+    },
+    "article": {
+      "back": "Back"
     }
   },
 

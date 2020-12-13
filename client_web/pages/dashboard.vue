@@ -23,18 +23,7 @@
               class="text-center"
               style="position: absolute; left: 100px"
             >
-              <span
-                class="display-2 font-weight-light pa-4"
-                style="
-                  border-radius: 20px;
-                  text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
-                    0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
-                    0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
-                    0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
-                    0 10px 10px rgba(0, 0, 0, 0.2),
-                    0 20px 20px rgba(0, 0, 0, 0.15);
-                "
-              >
+              <span class="display-2 font-weight-light pa-4 dashboard-title">
                 {{ $t('dashboard.title') }}
               </span>
             </v-col>
@@ -51,6 +40,7 @@
                       fab
                       v-bind="attrs"
                       color="#424242"
+                      class="dashboard-buttons"
                       :to="!!item.to ? localePath(item.to) : undefined"
                       :x-large="$vuetify.breakpoint.mdAndUp"
                       :large="$vuetify.breakpoint.mdAndDown"
@@ -83,16 +73,24 @@
                     style="width: 90%"
                   >
                     <v-card-title
-                      class="display-1 text-center font-weight-light"
+                      class="display-1 text-center font-weight-light titlelink"
+                      @click="getCryptos()"
                       >{{ $t('dashboard.currencies') }}</v-card-title
                     >
-                    <v-container fluid>
+                    <v-container
+                      fluid
+                      :style="`overflow-y: auto; height: ${percent(60)}px;`"
+                    >
                       <crypto-card
                         v-for="(item, id) in cryptos"
                         :key="id"
                         :image="item.image"
                         :name="item.name"
-                        :value="item.value"
+                        :current-price="item.currentPrice"
+                        :opening-price="item.openingPrice"
+                        :lowest-day="item.lowestDay"
+                        :highest-day="item.highestDay"
+                        :cmid="item.cmid"
                         class="hover-card"
                         :color="id % 2 === 0 ? '#A0A0A0' : '#848484'"
                       />
@@ -113,17 +111,22 @@
                     style="width: 90%"
                   >
                     <v-card-title
-                      class="display-1 text-center font-weight-light"
+                      class="display-1 text-center font-weight-light titlelink"
+                      @click="getArticles()"
                       >{{ $t('dashboard.newsfeed') }}</v-card-title
                     >
 
-                    <v-container fluid>
+                    <v-container
+                      fluid
+                      :style="`overflow-y: auto; height: ${percent(60)}px;`"
+                    >
                       <news-card
                         v-for="(item, id) in news"
                         :key="id"
-                        :image="item.image"
+                        :article-id="item._id"
+                        :image="item.imageFeed"
                         :title="item.title"
-                        :text="item.text"
+                        :text="item.summary"
                         class="hover-card"
                         :color="id % 2 === 0 ? '#A0A0A0' : '#636363'"
                       />
@@ -137,6 +140,7 @@
         <crypto-settings
           v-if="isAuthenticated"
           :active="cryptoSettings"
+          @change="refreshDashboard"
           @update:active="cryptoSettings = false"
         />
         <article-settings
@@ -145,8 +149,9 @@
           @update:active="articleSettings = false"
         />
         <app-settings
-          v-if="authorized('admin')"
+          v-if="authorized('admin') && appSettings"
           :active="appSettings"
+          @change="refreshDashboard()"
           @update:active="appSettings = false"
         />
       </span>
@@ -172,40 +177,15 @@ export default {
   },
 
   data: () => ({
+    k: 0,
+    n: 0,
     intro: true,
     appSettings: false,
     cryptoSettings: false,
     articleSettings: false,
-    cryptos: [
-      {
-        name: 'Bitcoin',
-        image:
-          'https://vangogh.teespring.com/v3/image/HlZAvJt6vXzedAp4hghP0XDzHtY/480/560.jpg',
-        value: 15000,
-      },
-      {
-        name: 'Ethereum',
-        image:
-          'https://btcdirect.eu/media/838/download/ethereum-classic-1.svg?v=3',
-        value: 6000,
-      },
-    ],
-
-    news: [
-      {
-        title: 'Bitcoin news',
-        text: 'Increase of the bitcoin announced... blabla',
-        image:
-          'https://vangogh.teespring.com/v3/image/HlZAvJt6vXzedAp4hghP0XDzHtY/480/560.jpg',
-      },
-      {
-        title: 'Ethreum news',
-        text:
-          'The first version of Ethereum 2.0 (ETH 2.0) is now live. The team that designed it called its launch a success. The price of ETH has meanwhile fallen since the announcement.',
-        image:
-          'https://vangogh.teespring.com/v3/image/HlZAvJt6vXzedAp4hghP0XDzHtY/480/560.jpg',
-      },
-    ],
+    cryptos_list: [],
+    cryptos: [],
+    news: [],
   }),
 
   computed: {
@@ -269,12 +249,66 @@ export default {
   },
 
   mounted() {
+    this.getPreferences().then(() => {
+      this.getArticles()
+      this.getCryptos()
+    })
     setTimeout(() => {
       this.intro = false
     }, 1000)
   },
 
   methods: {
+    refreshDashboard() {
+      this.getPreferences().then(() => {
+        this.getArticles()
+        this.getCryptos()
+      })
+    },
+
+    async getPreferences() {
+      try {
+        const res = await this.$axios.$get('/app/preferences')
+        this.n = res.preferences.n
+        this.k = res.preferences.k
+        this.cryptos_list = res.preferences.cryptos_list
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
+    async getArticles() {
+      try {
+        const res = await this.$axios.get('/articles' + '?length=' + this.k)
+        this.news = []
+        res.data.articles.forEach((article) => {
+          this.news.push(article)
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
+    async getCryptos() {
+      try {
+        const res = await this.$axios.get(
+          '/cryptos?cmids=' +
+            (this.isAuthenticated
+              ? this.loggedInUser.preferences.cryptos_list
+                  .slice()
+                  .reverse()
+                  .join()
+              : this.cryptos_list.join())
+        )
+        this.cryptos = []
+        res.data.forEach((crypto) => {
+          this.cryptos.push(crypto)
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
     percent(percentage) {
       if (process.client) {
         return window.innerHeight * (percentage / 100)
@@ -308,9 +342,41 @@ export default {
 #dashboard {
 }
 .hover-card {
+  transition: all 1s;
+}
+.hover-card:hover {
   cursor: pointer;
+  transform: scaleY(1.1);
+  transition: all 1s;
+}
+.dashboard-buttons {
+  transition: all 1s;
+}
+.dashboard-buttons:hover {
+  transform: scale(1.05);
+  transition: all 1s;
 }
 .theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   background-color: #a0a0a0 !important;
+}
+.titlelink {
+  transition: all 1s;
+}
+.titlelink:hover {
+  transition: all 1s;
+  cursor: pointer;
+  text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
+    0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2),
+    0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
+    0 20px 20px rgba(0, 0, 0, 0.15);
+}
+.dashboard-title {
+  border-radius: 20px;
+  text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
+    0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2),
+    0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
+    0 20px 20px rgba(0, 0, 0, 0.15);
 }
 </style>

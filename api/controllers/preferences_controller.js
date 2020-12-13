@@ -5,23 +5,21 @@ const App = require('../database/preferences/app').AppPreferenceModel;
 // @desc    Get app preferences
 // @route   GET /app/preferences
 exports.getPreferences = (req, res, next) => {
-  tokenManager.checkToken(req, res, function () {
-    App.findOne({}, function (err, preferences) {
-      if (!err && preferences !== undefined && preferences !== null) {
-        res.status(200);
-        res.send({
-          success: true,
-          message: "App preferences retrieved",
-          preferences: preferences
-        });
-      } else {
-        res.status(500);
-        res.send({
-          success: false,
-          message: "No app preferences"
-        })
-      }
-    });
+  App.findOne({}, function (err, preferences) {
+    if (!err && preferences !== undefined && preferences !== null) {
+      res.status(200);
+      res.send({
+        success: true,
+        message: "App preferences retrieved",
+        preferences: preferences
+      });
+    } else {
+      res.status(500);
+      res.send({
+        success: false,
+        message: "No app preferences"
+      })
+    }
   });
 }
 

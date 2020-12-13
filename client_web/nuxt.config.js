@@ -31,7 +31,8 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
-    // https://i18n.nuxtjs.org/
+    // https://www.npmjs.com/package/@nuxtjs/moment
+    '@nuxtjs/moment',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -44,6 +45,8 @@ export default {
     '@nuxtjs/auth',
     // https://i18n.nuxtjs.org/
     'nuxt-i18n',
+    // https://content.nuxtjs.org/fr/
+    '@nuxtjs/content',
   ],
 
   i18n: {

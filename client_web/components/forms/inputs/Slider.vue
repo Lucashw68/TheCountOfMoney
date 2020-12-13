@@ -19,13 +19,13 @@
         :color="config.color || '#424242'"
       >
         <template v-slot:prepend>
-          <v-icon @click="decrement">
+          <v-icon @click.stop="decrement">
             {{ config.prependicon || 'mdi-minus' }}
           </v-icon>
         </template>
 
         <template v-slot:append>
-          <v-icon @click="increment">
+          <v-icon @click.stop="increment">
             {{ config.appendicon || 'mdi-plus' }}
           </v-icon>
         </template>
@@ -51,7 +51,7 @@ export default {
     },
   },
   data: () => ({
-    modelValue: null,
+    modelValue: 1,
   }),
 
   computed: {

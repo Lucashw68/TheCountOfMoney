@@ -1,5 +1,6 @@
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
+const newsfeed = require('./newsfeed');
 const passport = require('passport');
 const express = require('express');
 const alerts = require('./alerts');
@@ -18,6 +19,14 @@ module.exports = function(app) {
       process.exit(1);
     } else
       console.log('Alert service is running');
+  });
+
+  newsfeed(function (err) {
+    if (err) {
+      console.error('Launching newsfeed service failed');
+      process.exit(1);
+    } else
+      console.log('Newsfeed service is running');
   });
 
   app.disable('x-powered-by');
