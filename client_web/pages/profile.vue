@@ -161,18 +161,14 @@ export default {
     },
 
     addService(service) {
-      console.log(service)
-      console.log(this.loggedInUser)
       this.$router.push({ path: this.localePath('profile') })
     },
 
     isServiceAssociated(service) {
-      console.log(!!this.loggedInUser[service])
       return !!this.loggedInUser[service]
     },
 
     email() {
-      console.log('Button email')
       this.selected =
         this.selected === null
           ? this.$store.state.auth.user.provider === 'local'
@@ -189,7 +185,6 @@ export default {
           : null
     },
     gmail() {
-      console.log('Button gmail')
       const token = this.$auth.getToken('local')
       location.replace(
         `${this.$axios.defaults.baseURL}/users/auth/gmail` +
