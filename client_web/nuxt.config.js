@@ -45,6 +45,8 @@ export default {
     '@nuxtjs/auth',
     // https://i18n.nuxtjs.org/
     'nuxt-i18n',
+    // https://content.nuxtjs.org/fr/
+    '@nuxtjs/content',
   ],
 
   i18n: {

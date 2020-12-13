@@ -1,3 +1,4 @@
+const coinapi = require('../config/coinapi')
 const nomics = require('../config/nomics')
 const axios = require('axios');
 const moment = require('moment');
@@ -7,7 +8,7 @@ nomicsApi = axios.create({
     method: 'get',
     responseType: 'json',
     params: {
-        key: "70899bfac7ff094679ae52a8ae32ead9"
+      key: nomics.api_key
     }
 });
 
@@ -16,7 +17,7 @@ coinApi = axios.create({
     method: 'get',
     responseType: 'json',
     params: {
-        apikey: "AEED49D0-6B07-4B18-8A24-F77BD1B0F0FF"
+      apikey: coinapi.api_key
     }
 });
 
@@ -48,7 +49,7 @@ async function getAll(codeParam) {
 
 
 async function getPrices () {
-    req = await nomicsApi('/prices?key=70899bfac7ff094679ae52a8ae32ead9')
+    req = await nomicsApi(`/prices?key= + ${nomics.api_key}`)
         .then((res) => {
             return res;
         })
@@ -63,11 +64,11 @@ async function getPrices () {
 async function getCryptoInfos (code) {
     let now = moment();
     const startToday = now.startOf('day').format("YYYY-MM-DDTHH:mm:ss")
-    req = await coinApi(`/ohlcv/${code}/USD/history`, { 
+    req = await coinApi(`/ohlcv/${code}/USD/history`, {
             params: {
                 period_id: "1DAY",
                 time_start: startToday,
-                apikey: "AEED49D0-6B07-4B18-8A24-F77BD1B0F0FF",
+                apikey: coinapi.api_key,
             }
         })
         .then((res) => {
@@ -82,7 +83,7 @@ async function getCryptoInfos (code) {
 
 // Get price of a currency by it's code
 async function getPriceByCode (code) {
-    req = await nomicsApi('/currencies/ticker', { 
+    req = await nomicsApi('/currencies/ticker', {
             params: {
                 ids: code,
                 key: nomics.api_key
@@ -123,11 +124,11 @@ async function getHistory (code, periodParam) {
             return "Period unrecognized";
     }
 
-    req = await coinApi(`/ohlcv/${code}/USD/history`, { 
+    req = await coinApi(`/ohlcv/${code}/USD/history`, {
             params: {
                 period_id: period,
                 time_start: start_date.format("YYYY-MM-DDTHH:mm:ss"),
-                apikey: "AEED49D0-6B07-4B18-8A24-F77BD1B0F0FF",
+                apikey: coinapi.api_key,
             }
         })
         .then((res) => {
@@ -141,7 +142,7 @@ async function getHistory (code, periodParam) {
 
 // Get prices of multiples currencies by code
 async function getPricesByCodes (codes) {
-    req = await nomicsApi('/currencies/ticker', { 
+    req = await nomicsApi('/currencies/ticker', {
             params: {
                 ids: codes,
                 key: nomics.api_key
@@ -171,7 +172,7 @@ async function getById(code) {
 
 function getCoinInfos(crypto) {
     const code = crypto.code;
-    return nomicsApi('/currencies/ticker', { 
+    return nomicsApi('/currencies/ticker', {
         params: {
             ids: code,
             key: nomics.api_key
@@ -183,11 +184,11 @@ function getCoinHistory(crypto) {
     const code = crypto.code;
     let now = moment();
     const startToday = now.startOf('day').format("YYYY-MM-DDTHH:mm:ss")
-    return coinApi(`/ohlcv/${code}/USD/history`, { 
+    return coinApi(`/ohlcv/${code}/USD/history`, {
         params: {
             period_id: "1DAY",
             time_start: startToday,
-            apikey: "AEED49D0-6B07-4B18-8A24-F77BD1B0F0FF",
+            apikey: coinapi.api_key,
         }
     });
 }

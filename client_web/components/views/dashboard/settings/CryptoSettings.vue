@@ -160,6 +160,7 @@ export default {
           }
         )
         await this.$auth.fetchUser()
+        this.$emit('change')
         this.getPreferences()
       } catch (err) {
         console.log(err)

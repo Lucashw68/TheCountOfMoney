@@ -11,24 +11,11 @@ module.exports = [
           "currency": "EUR",
           "cryptos_list": [
             "BTC",
-            "ETH",
+            "ETH"
             "XRP",
             "USDT",
             "BCH",
-            "LTC",
-            "LINK",
-            "DOT",
-            "ADA",
-            "BNB",
-            "XLM",
-            "BSV",
-            "USDC",
-            "EOS",
-            "XMR",
-            "WBTC",
-            "TRX",
-            "XEM",
-            "XTZ"
+            "LTC"
           ],
           "keywords_list": []
         }
@@ -43,24 +30,11 @@ module.exports = [
           "currency": "EUR",
           "cryptos_list": [
             "BTC",
-            "ETH",
+            "ETH"
             "XRP",
             "USDT",
             "BCH",
-            "LTC",
-            "LINK",
-            "DOT",
-            "ADA",
-            "BNB",
-            "XLM",
-            "BSV",
-            "USDC",
-            "EOS",
-            "XMR",
-            "WBTC",
-            "TRX",
-            "XEM",
-            "XTZ"
+            "LTC"
           ],
           "keywords_list": []
         }
@@ -75,24 +49,11 @@ module.exports = [
         "n": 5,
         "cryptos_list": [
           "BTC",
-          "ETH",
+          "ETH"
           "XRP",
           "USDT",
           "BCH",
-          "LTC",
-          "LINK",
-          "DOT",
-          "ADA",
-          "BNB",
-          "XLM",
-          "BSV",
-          "USDC",
-          "EOS",
-          "XMR",
-          "WBTC",
-          "TRX",
-          "XEM",
-          "XTZ"
+          "LTC"
         ],
         "feeds_list": [
           "https://www.coindesk.com/feed",

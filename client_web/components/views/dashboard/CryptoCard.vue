@@ -3,7 +3,7 @@
     justify="center"
     align="center"
     :style="`background-color: ${color};`"
-    @click="$router.push({ path: `/cryptos/${name}` })"
+    @click="$router.push({ path: `/cryptos/${cmid}` })"
   >
     <v-col v-if="!responsive" cols="2">
       <v-avatar>
@@ -43,12 +43,11 @@
     </v-col>
 
     <v-col v-if="!responsive" cols="2">
-      <span class="headline font-weight-light">{{ value }}€</span>
+      <span class="headline font-weight-light">{{ currentPrice }}€</span>
     </v-col>
 
     <v-col v-if="!responsive" cols="2">
-      <v-icon color="green" left class="pb-2">mdi-arrow-top-right</v-icon>
-      <span class="headline font-weight-light">+3.4%</span>
+      <span class="headline font-weight-light">{{ cmid }}</span>
     </v-col>
   </v-row>
 </template>
@@ -75,7 +74,23 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    currentPrice: {
+      type: Number,
+      default: 0,
+    },
+    cmid: {
+      type: String,
+      default: '',
+    },
+    openingPrice: {
+      type: Number,
+      default: 0,
+    },
+    highestDay: {
+      type: Number,
+      default: 0,
+    },
+    lowestDay: {
       type: Number,
       default: 0,
     },
@@ -92,7 +107,7 @@ export default {
     padding: 8,
     lineCap: 'round',
     gradient: gradients[5],
-    chartValue: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
+    chartValue: [],
     gradientDirection: 'top',
     gradients,
     fill: false,
@@ -119,6 +134,12 @@ export default {
   },
 
   mounted() {
+    for (let i = 0; i !== 10; i++) {
+      this.chartValue.push(
+        Math.random() * (this.highestDay - this.lowestDay) + this.lowestDay
+      )
+    }
+    this.chartValue.push(this.currentPrice)
     this.toDraw = true
   },
 
