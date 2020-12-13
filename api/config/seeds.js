@@ -11,7 +11,7 @@ module.exports = [
           "currency": "EUR",
           "cryptos_list": [
             "BTC",
-            "ETH"
+            "ETH",
             "XRP",
             "USDT",
             "BCH",
@@ -30,7 +30,7 @@ module.exports = [
           "currency": "EUR",
           "cryptos_list": [
             "BTC",
-            "ETH"
+            "ETH",
             "XRP",
             "USDT",
             "BCH",
@@ -49,7 +49,7 @@ module.exports = [
         "n": 5,
         "cryptos_list": [
           "BTC",
-          "ETH"
+          "ETH",
           "XRP",
           "USDT",
           "BCH",
